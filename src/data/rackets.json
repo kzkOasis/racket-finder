@@ -1,0 +1,802 @@
+[
+  {
+    "id": "yonex-ezone-100-2024",
+    "brand": "Yonex",
+    "series": "EZONE",
+    "model": "EZONE 100",
+    "year": 2024,
+    "weight": 300,
+    "balance": 320,
+    "swingWeight": 300,
+    "headSize": 100,
+    "ra": 68,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=EZ10BB-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-ezone-98-2024",
+    "brand": "Yonex",
+    "series": "EZONE",
+    "model": "EZONE 98",
+    "year": 2024,
+    "weight": 305,
+    "balance": 315,
+    "swingWeight": 315,
+    "headSize": 98,
+    "ra": 66,
+    "beamWidth": 22,
+    "pattern": "16x19",
+    "price": 40000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=EZ98BB-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-blade-98-v9",
+    "brand": "Wilson",
+    "series": "Blade",
+    "model": "Blade 98 v9",
+    "year": 2023,
+    "weight": 305,
+    "balance": 310,
+    "swingWeight": 320,
+    "headSize": 98,
+    "ra": 62,
+    "beamWidth": 21,
+    "pattern": "18x20",
+    "price": 42000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WB9816-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-pure-aero-2023",
+    "brand": "Babolat",
+    "series": "Pure Aero",
+    "model": "Pure Aero",
+    "year": 2023,
+    "weight": 300,
+    "balance": 325,
+    "swingWeight": 310,
+    "headSize": 100,
+    "ra": 70,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BPAR26-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-pure-drive-2021",
+    "brand": "Babolat",
+    "series": "Pure Drive",
+    "model": "Pure Drive",
+    "year": 2021,
+    "weight": 300,
+    "balance": 320,
+    "swingWeight": 320,
+    "headSize": 100,
+    "ra": 72,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 36000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BPD25R-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-speed-mp-2024",
+    "brand": "Head",
+    "series": "Speed",
+    "model": "Speed MP",
+    "year": 2024,
+    "weight": 295,
+    "balance": 320,
+    "swingWeight": 305,
+    "headSize": 100,
+    "ra": 65,
+    "beamWidth": 22,
+    "pattern": "16x19",
+    "price": 40000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HSPMP6-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-radical-mp-2023",
+    "brand": "Head",
+    "series": "Radical",
+    "model": "Radical MP",
+    "year": 2023,
+    "weight": 295,
+    "balance": 315,
+    "swingWeight": 308,
+    "headSize": 98,
+    "ra": 63,
+    "beamWidth": 22,
+    "pattern": "18x20",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HRMP-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-clash-100-v2",
+    "brand": "Wilson",
+    "series": "Clash",
+    "model": "Clash 100 v2",
+    "year": 2022,
+    "weight": 295,
+    "balance": 320,
+    "swingWeight": 295,
+    "headSize": 100,
+    "ra": 55,
+    "beamWidth": 24,
+    "pattern": "16x19",
+    "price": 40000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100V-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "prince-textreme-tour-100",
+    "brand": "Prince",
+    "series": "Textreme Tour",
+    "model": "Textreme Tour 100",
+    "year": 2022,
+    "weight": 310,
+    "balance": 305,
+    "swingWeight": 322,
+    "headSize": 100,
+    "ra": 64,
+    "beamWidth": 21,
+    "pattern": "other",
+    "price": 35000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=ATR310-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "dunlop-cx400-tour",
+    "brand": "Dunlop",
+    "series": "CX",
+    "model": "CX 400 Tour",
+    "year": 2021,
+    "weight": 290,
+    "balance": 320,
+    "swingWeight": 290,
+    "headSize": 100,
+    "ra": 65,
+    "beamWidth": 22,
+    "pattern": "16x19",
+    "price": 30000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=DCX4T-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-ultra-100-v4",
+    "brand": "Wilson",
+    "series": "Ultra",
+    "model": "Ultra 100 v4",
+    "year": 2022,
+    "weight": 300,
+    "balance": 320,
+    "swingWeight": 305,
+    "headSize": 100,
+    "ra": 67,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 32000,
+    "imageUrl": "",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-burn-100ls",
+    "brand": "Wilson",
+    "series": "Burn",
+    "model": "Burn 100LS",
+    "year": 2021,
+    "weight": 285,
+    "balance": 330,
+    "swingWeight": 280,
+    "headSize": 100,
+    "ra": 69,
+    "beamWidth": 25,
+    "pattern": "16x19",
+    "price": 28000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BRNLS6-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-pure-strike-100",
+    "brand": "Babolat",
+    "series": "Pure Strike",
+    "model": "Pure Strike 100",
+    "year": 2023,
+    "weight": 300,
+    "balance": 315,
+    "swingWeight": 315,
+    "headSize": 100,
+    "ra": 68,
+    "beamWidth": 21,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=PS1019-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-boost-aero",
+    "brand": "Babolat",
+    "series": "Boost Aero",
+    "model": "Boost Aero",
+    "year": 2023,
+    "weight": 260,
+    "balance": 340,
+    "swingWeight": 255,
+    "headSize": 105,
+    "ra": 72,
+    "beamWidth": 28,
+    "pattern": "16x19",
+    "price": 18000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BBOASR-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-gravity-mp-2023",
+    "brand": "Head",
+    "series": "Gravity",
+    "model": "Gravity MP",
+    "year": 2023,
+    "weight": 295,
+    "balance": 315,
+    "swingWeight": 310,
+    "headSize": 100,
+    "ra": 63,
+    "beamWidth": 21,
+    "pattern": "16x20",
+    "price": 40000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HGMPG-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-prestige-mp-2023",
+    "brand": "Head",
+    "series": "Prestige",
+    "model": "Prestige MP",
+    "year": 2023,
+    "weight": 320,
+    "balance": 305,
+    "swingWeight": 340,
+    "headSize": 95,
+    "ra": 58,
+    "beamWidth": 19,
+    "pattern": "18x20",
+    "price": 42000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HPRMP-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-vcore-100-2023",
+    "brand": "Yonex",
+    "series": "VCORE",
+    "model": "VCORE 100",
+    "year": 2023,
+    "weight": 300,
+    "balance": 320,
+    "swingWeight": 310,
+    "headSize": 100,
+    "ra": 70,
+    "beamWidth": 24,
+    "pattern": "16x19",
+    "price": 36000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=YVC100-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-percept-100",
+    "brand": "Yonex",
+    "series": "PERCEPT",
+    "model": "PERCEPT 100",
+    "year": 2023,
+    "weight": 300,
+    "balance": 310,
+    "swingWeight": 315,
+    "headSize": 100,
+    "ra": 63,
+    "beamWidth": 22,
+    "pattern": "16x19",
+    "price": 42000,
+    "imageUrl": "https://us.yonex.com/cdn/shop/files/ALL_01PE100_472-2_545ae070-15a7-48a7-a7e0-1de4479696a6.jpg?v=1759595991",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-pro-staff-97-v14",
+    "brand": "Wilson",
+    "series": "Pro Staff",
+    "model": "Pro Staff 97 v14",
+    "year": 2023,
+    "weight": 315,
+    "balance": 310,
+    "swingWeight": 330,
+    "headSize": 97,
+    "ra": 60,
+    "beamWidth": 19,
+    "pattern": "16x19",
+    "price": 44000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WPS97C-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "dunlop-fx500",
+    "brand": "Dunlop",
+    "series": "FX",
+    "model": "FX 500",
+    "year": 2022,
+    "weight": 300,
+    "balance": 320,
+    "swingWeight": 305,
+    "headSize": 100,
+    "ra": 67,
+    "beamWidth": 24,
+    "pattern": "16x19",
+    "price": 30000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=DF500-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "prince-beast-100",
+    "brand": "Prince",
+    "series": "Beast",
+    "model": "Beast 100",
+    "year": 2022,
+    "weight": 300,
+    "balance": 320,
+    "swingWeight": 308,
+    "headSize": 100,
+    "ra": 68,
+    "beamWidth": 24,
+    "pattern": "16x19",
+    "price": 28000,
+    "imageUrl": "",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "technifibre-tfight-305",
+    "brand": "Technifibre",
+    "series": "TFight",
+    "model": "TFight 305 RS",
+    "year": 2022,
+    "weight": 305,
+    "balance": 315,
+    "swingWeight": 325,
+    "headSize": 98,
+    "ra": 65,
+    "beamWidth": 22,
+    "pattern": "16x19",
+    "price": 36000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=TF305S-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "technifibre-tempo-298",
+    "brand": "Technifibre",
+    "series": "Tempo",
+    "model": "Tempo 298 IGA",
+    "year": 2023,
+    "weight": 298,
+    "balance": 320,
+    "swingWeight": 295,
+    "headSize": 100,
+    "ra": 62,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 34000,
+    "imageUrl": "",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-extreme-mp-2022",
+    "brand": "Head",
+    "series": "Extreme",
+    "model": "Extreme MP",
+    "year": 2022,
+    "weight": 300,
+    "balance": 325,
+    "swingWeight": 310,
+    "headSize": 100,
+    "ra": 69,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 36000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HREM26-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "prince-textreme-warrior-100",
+    "brand": "Prince",
+    "series": "Textreme Warrior",
+    "model": "Textreme Warrior 100",
+    "year": 2021,
+    "weight": 285,
+    "balance": 325,
+    "swingWeight": 275,
+    "headSize": 100,
+    "ra": 67,
+    "beamWidth": 25,
+    "pattern": "16x19",
+    "price": 26000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=PTW100-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-ezone-100l-2024",
+    "brand": "Yonex",
+    "series": "EZONE L",
+    "model": "EZONE 100L",
+    "year": 2024,
+    "weight": 285,
+    "balance": 325,
+    "swingWeight": 275,
+    "headSize": 100,
+    "ra": 65,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 35000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=EZ1LBB-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-pure-aero-lite",
+    "brand": "Babolat",
+    "series": "Pure Aero Lite",
+    "model": "Pure Aero Lite",
+    "year": 2023,
+    "weight": 270,
+    "balance": 335,
+    "swingWeight": 260,
+    "headSize": 100,
+    "ra": 70,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 32000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BAROL-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-blade-100-v9",
+    "brand": "Wilson",
+    "series": "Blade",
+    "model": "Blade 100 v9",
+    "year": 2023,
+    "weight": 300,
+    "balance": 315,
+    "swingWeight": 305,
+    "headSize": 100,
+    "ra": 60,
+    "beamWidth": 22,
+    "pattern": "16x19",
+    "price": 40000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WB1009-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-ti-s6",
+    "brand": "Head",
+    "series": "Ti.S",
+    "model": "Ti.S6",
+    "year": 2020,
+    "weight": 235,
+    "balance": 355,
+    "swingWeight": 230,
+    "headSize": 115,
+    "ra": 68,
+    "beamWidth": 30,
+    "pattern": "16x19",
+    "price": 10000,
+    "imageUrl": "",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-pure-drive-plus",
+    "brand": "Babolat",
+    "series": "Pure Drive Plus",
+    "model": "Pure Drive Plus",
+    "year": 2021,
+    "weight": 300,
+    "balance": 325,
+    "swingWeight": 330,
+    "headSize": 100,
+    "ra": 72,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BPDP25-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-astrel-105",
+    "brand": "Yonex",
+    "series": "ASTREL",
+    "model": "ASTREL 105",
+    "year": 2022,
+    "weight": 255,
+    "balance": 345,
+    "swingWeight": 240,
+    "headSize": 105,
+    "ra": 63,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 30000,
+    "imageUrl": "https://us.yonex.com/cdn/shop/files/03ast105_grb_271_int.png?v=1738864569",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-speed-lite-2024",
+    "brand": "Head",
+    "series": "Speed Lite",
+    "model": "Speed Lite",
+    "year": 2024,
+    "weight": 265,
+    "balance": 335,
+    "swingWeight": 255,
+    "headSize": 105,
+    "ra": 65,
+    "beamWidth": 25,
+    "pattern": "16x19",
+    "price": 34000,
+    "imageUrl": "",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-clash-108-v2",
+    "brand": "Wilson",
+    "series": "Clash 108",
+    "model": "Clash 108 v2",
+    "year": 2022,
+    "weight": 285,
+    "balance": 325,
+    "swingWeight": 280,
+    "headSize": 108,
+    "ra": 55,
+    "beamWidth": 26,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WC108V-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-vcore-98-2023",
+    "brand": "Yonex",
+    "series": "VCORE 98",
+    "model": "VCORE 98",
+    "year": 2023,
+    "weight": 305,
+    "balance": 315,
+    "swingWeight": 320,
+    "headSize": 98,
+    "ra": 69,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=YVC98-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "head-radical-lite-2023",
+    "brand": "Head",
+    "series": "Radical Lite",
+    "model": "Radical Lite",
+    "year": 2023,
+    "weight": 265,
+    "balance": 330,
+    "swingWeight": 258,
+    "headSize": 102,
+    "ra": 63,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 32000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HRAD2-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "dunlop-cx200-tour",
+    "brand": "Dunlop",
+    "series": "CX200",
+    "model": "CX 200 Tour",
+    "year": 2021,
+    "weight": 310,
+    "balance": 305,
+    "swingWeight": 335,
+    "headSize": 95,
+    "ra": 61,
+    "beamWidth": 20,
+    "pattern": "18x20",
+    "price": 36000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=DCX2T6-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "prince-ripstick-100",
+    "brand": "Prince",
+    "series": "Ripstick",
+    "model": "Ripstick 100",
+    "year": 2023,
+    "weight": 295,
+    "balance": 320,
+    "swingWeight": 305,
+    "headSize": 100,
+    "ra": 60,
+    "beamWidth": 23,
+    "pattern": "16x19",
+    "price": 38000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=25RIPH-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "babolat-evoke-102",
+    "brand": "Babolat",
+    "series": "Evoke",
+    "model": "Evoke 102",
+    "year": 2022,
+    "weight": 265,
+    "balance": 335,
+    "swingWeight": 252,
+    "headSize": 102,
+    "ra": 68,
+    "beamWidth": 27,
+    "pattern": "16x19",
+    "price": 15000,
+    "imageUrl": "",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "wilson-triad-five",
+    "brand": "Wilson",
+    "series": "Triad",
+    "model": "Triad Five",
+    "year": 2021,
+    "weight": 275,
+    "balance": 330,
+    "swingWeight": 270,
+    "headSize": 110,
+    "ra": 50,
+    "beamWidth": 28,
+    "pattern": "16x19",
+    "price": 32000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WTRI5-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  },
+  {
+    "id": "yonex-ezone-feel",
+    "brand": "Yonex",
+    "series": "EZONE Feel",
+    "model": "EZONE Feel",
+    "year": 2022,
+    "weight": 250,
+    "balance": 345,
+    "swingWeight": 238,
+    "headSize": 102,
+    "ra": 65,
+    "beamWidth": 25,
+    "pattern": "16x19",
+    "price": 20000,
+    "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=YEZFL-1.jpg&nw=455",
+    "affiliateUrl": {
+      "rakuten": "",
+      "amazon": ""
+    }
+  }
+]

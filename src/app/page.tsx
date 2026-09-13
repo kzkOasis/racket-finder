@@ -1,69 +1,264 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { QuestionStep } from '@/components/QuestionStep';
+import type { Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, Budget } from '@/lib/types';
+import { encodeAnswers, BRANDS } from '@/lib/share';
+
+type Answers = {
+  q1: Level | null;
+  q2: PlayStyle | null;
+  q3: SwingSize | null;
+  q4: Problem[];
+  q5: ElbowCondition | null;
+  q6: CurrentWeight | null;
+  q7: StringType | null;
+  q8: Budget | 'unlimited';
+  q9: string[];
+};
+
+const TOTAL = 9;
 
 export default function Home() {
+  const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [answers, setAnswers] = useState<Answers>({
+    q1: null,
+    q2: null,
+    q3: null,
+    q4: [],
+    q5: null,
+    q6: null,
+    q7: null,
+    q8: 'unlimited',
+    q9: [],
+  });
+
+  function goNext() {
+    if (step < TOTAL) {
+      setStep(s => s + 1);
+    } else {
+      const a = {
+        q1: answers.q1!,
+        q2: answers.q2!,
+        q3: answers.q3!,
+        q4: answers.q4,
+        q5: answers.q5!,
+        q6: answers.q6!,
+        q7: answers.q7!,
+        q8: answers.q8 === 'unlimited' ? null : answers.q8,
+        q9: answers.q9,
+      };
+      const encoded = encodeAnswers(a);
+      router.push(`/result?a=${encoded}`);
+    }
+  }
+
+  function goBack() {
+    setStep(s => s - 1);
+  }
+
+  if (step === 1) {
+    return (
+      <QuestionStep
+        questionNumber={1}
+        total={TOTAL}
+        question="テニス歴・レベルを教えてください"
+        options={[
+          { value: 'beginner' as Level, label: '初級（〜1年 / 週1未満）' },
+          { value: 'beginnerIntermediate' as Level, label: '初中級（1〜3年）' },
+          { value: 'intermediate' as Level, label: '中級（3〜10年 / 草トー出る）' },
+          { value: 'advanced' as Level, label: '中上級以上（10年〜 / 試合中心）' },
+        ]}
+        selected={answers.q1 ? [answers.q1] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q1: v as Level }))}
+        onBack={null}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 2) {
+    return (
+      <QuestionStep
+        questionNumber={2}
+        total={TOTAL}
+        question="どんなプレーが多いですか"
+        options={[
+          { value: 'baseline' as PlayStyle, label: 'ベースライン中心', description: 'ストロークで粘るプレー' },
+          { value: 'allround' as PlayStyle, label: 'オールラウンド', description: 'どちらもこなす' },
+          { value: 'net' as PlayStyle, label: 'ネット中心・ダブルス主体', description: 'ボレーやスマッシュが多い' },
+        ]}
+        selected={answers.q2 ? [answers.q2] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q2: v as PlayStyle }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 3) {
+    return (
+      <QuestionStep
+        questionNumber={3}
+        total={TOTAL}
+        question="スイングはどちらに近いですか"
+        options={[
+          { value: 'compact' as SwingSize, label: 'コンパクト（当てる・ブロック気味）' },
+          { value: 'standard' as SwingSize, label: '標準' },
+          { value: 'full' as SwingSize, label: 'フルスイング（大きく振り切る）' },
+        ]}
+        selected={answers.q3 ? [answers.q3] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q3: v as SwingSize }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 4) {
+    return (
+      <QuestionStep
+        questionNumber={4}
+        total={TOTAL}
+        question="いま一番困っていることは？（最大2つまで）"
+        options={[
+          { value: 'noPower' as Problem, label: 'ボールが飛ばない' },
+          { value: 'tooMuchPower' as Problem, label: '飛びすぎる・アウトする' },
+          { value: 'noSpin' as Problem, label: '回転がかからない' },
+          { value: 'lateBall' as Problem, label: '振り遅れる' },
+          { value: 'armPain' as Problem, label: '手や腕に衝撃が響く' },
+        ]}
+        selected={answers.q4}
+        maxSelect={2}
+        onSelect={(v) => {
+          setAnswers(a => {
+            const cur = a.q4;
+            const val = v as Problem;
+            if (cur.includes(val)) return { ...a, q4: cur.filter(x => x !== val) };
+            if (cur.length >= 2) return a;
+            return { ...a, q4: [...cur, val] };
+          });
+        }}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 5) {
+    return (
+      <QuestionStep
+        questionNumber={5}
+        total={TOTAL}
+        question="肘や肩に不安はありますか"
+        options={[
+          { value: 'none' as ElbowCondition, label: '特にない' },
+          { value: 'sometimes' as ElbowCondition, label: 'たまに気になる' },
+          { value: 'painful' as ElbowCondition, label: '痛みがある / 治療中' },
+        ]}
+        selected={answers.q5 ? [answers.q5] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q5: v as ElbowCondition }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 6) {
+    return (
+      <QuestionStep
+        questionNumber={6}
+        total={TOTAL}
+        question="いま使っているラケットの重さは？"
+        options={[
+          { value: 'under275' as CurrentWeight, label: '〜275g' },
+          { value: '275to290' as CurrentWeight, label: '275〜290g' },
+          { value: '290to305' as CurrentWeight, label: '290〜305g' },
+          { value: 'over305' as CurrentWeight, label: '305g〜' },
+          { value: 'unknown' as CurrentWeight, label: 'わからない / 持っていない' },
+        ]}
+        selected={answers.q6 ? [answers.q6] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q6: v as CurrentWeight }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 7) {
+    return (
+      <QuestionStep
+        questionNumber={7}
+        total={TOTAL}
+        question="張る予定のストリングは？"
+        options={[
+          { value: 'poly' as StringType, label: 'ポリエステル', description: '硬くてスピン向き' },
+          { value: 'nylon' as StringType, label: 'ナイロン・マルチフィラメント', description: '柔らかくて標準的' },
+          { value: 'unknown' as StringType, label: 'わからない' },
+        ]}
+        selected={answers.q7 ? [answers.q7] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q7: v as StringType }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 8) {
+    return (
+      <QuestionStep
+        questionNumber={8}
+        total={TOTAL}
+        question="予算の上限は？"
+        options={[
+          { value: 20000, label: '〜20,000円' },
+          { value: 30000, label: '〜30,000円' },
+          { value: 40000, label: '〜40,000円' },
+          { value: 'unlimited', label: '上限なし' },
+        ]}
+        selected={answers.q8 !== null ? [answers.q8] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q8: v as Budget | 'unlimited' }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  // step === 9
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <QuestionStep
+      questionNumber={9}
+      total={TOTAL}
+      question="気になるブランドはありますか？（任意・複数選択可）"
+      options={[
+        { value: 'any', label: 'こだわらない' },
+        ...BRANDS.map(b => ({ value: b, label: b })),
+      ]}
+      selected={answers.q9.length === 0 ? ['any'] : answers.q9}
+      maxSelect={BRANDS.length}
+      onSelect={(v) => {
+        setAnswers(a => {
+          if (v === 'any') return { ...a, q9: [] };
+          const cur = a.q9;
+          const val = v as string;
+          if (cur.includes(val)) {
+            return { ...a, q9: cur.filter(x => x !== val) };
+          }
+          return { ...a, q9: [...cur, val] };
+        });
+      }}
+      onBack={goBack}
+      onNext={goNext}
+      canSkip
+    />
   );
 }
