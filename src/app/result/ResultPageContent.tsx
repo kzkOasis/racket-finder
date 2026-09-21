@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import { decodeAnswers } from '@/lib/share';
 import { buildTarget } from '@/lib/target';
 import { runDiagnosis } from '@/lib/score';
@@ -10,14 +10,24 @@ import { ResultCard } from '@/components/ResultCard';
 import { AxisRadarChart } from '@/components/AxisRadarChart';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import type { RacketSpec } from '@/lib/types';
+import { SITE_URL } from '@/lib/site';
 import racketData from '@/data/rackets.json';
 
 const CHART_COLORS = ['#ef4444', '#3b82f6', '#22c55e'] as const;
+
+const subscribeToNothing = () => () => {};
 
 export default function ResultPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const encoded = searchParams.get('a') ?? '';
+
+  // シェアURLのオリジン。サーバー描画時は SITE_URL、クライアントでは実際のオリジンを使う
+  const origin = useSyncExternalStore(
+    subscribeToNothing,
+    () => window.location.origin,
+    () => SITE_URL,
+  );
 
   const { result, target, answers } = useMemo(() => {
     const answers = decodeAnswers(encoded);
@@ -89,9 +99,12 @@ export default function ResultPageContent() {
   }
 
   const showElbowNote = answers.q5 === 'painful';
-  const shareUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/result?a=${encoded}`
-    : `/result?a=${encoded}`;
+  const shareUrl = `${origin}/result?a=${encoded}`;
+  const best = top[0].racket;
+  const postText = `私に合うテニスラケットは ${best.brand} ${best.model} でした🎾 #テニスラケット診断`;
+  const xPostUrl =
+    `https://x.com/intent/post?text=${encodeURIComponent(postText)}` +
+    `&url=${encodeURIComponent(shareUrl)}`;
 
   const ranks = [1, 2, 3] as const;
 
@@ -139,6 +152,17 @@ export default function ResultPageContent() {
         {/* シェアボタン */}
         <div className="bg-white rounded-lg p-5 shadow-sm mb-6">
           <h2 className="font-bold text-gray-900 mb-3">結果をシェア</h2>
+          <a
+            href={xPostUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 mb-3"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 h-4 fill-current">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            Xでポスト
+          </a>
           <button
             onClick={() => {
               if (navigator.share) {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'テニスラケット診断 | あなたに合ったラケットを見つけよう',
   description: '9問に答えるだけで、あなたのレベルやプレースタイルに合ったテニスラケットを3本提案します。',
   verification: {
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
     locale: 'ja_JP',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'テニスラケット診断',
     description: '9問に答えるだけで最適なラケットを提案！',
   },
