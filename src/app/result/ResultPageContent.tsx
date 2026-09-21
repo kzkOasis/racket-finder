@@ -5,7 +5,7 @@ import { useMemo, useSyncExternalStore } from 'react';
 import { decodeAnswers } from '@/lib/share';
 import { buildTarget } from '@/lib/target';
 import { runDiagnosis } from '@/lib/score';
-import { generateReason } from '@/lib/reason';
+import { generateReasons } from '@/lib/reason';
 import { ResultCard } from '@/components/ResultCard';
 import { AxisRadarChart } from '@/components/AxisRadarChart';
 import { ComparisonTable } from '@/components/ComparisonTable';
@@ -69,6 +69,7 @@ export default function ResultPageContent() {
     `&url=${encodeURIComponent(shareUrl)}`;
 
   const ranks = [1, 2, 3] as const;
+  const reasons = generateReasons(top, target);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -84,7 +85,7 @@ export default function ResultPageContent() {
               rank={ranks[i]}
               item={item}
               role={item.role}
-              reason={generateReason(item.racket.model, item.axisScores, target)}
+              reason={reasons[i]}
               showElbowNote={showElbowNote && i === 0}
             />
           ))}
