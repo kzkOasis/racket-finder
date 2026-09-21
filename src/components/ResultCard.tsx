@@ -1,18 +1,20 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import type { ScoredRacket } from '@/lib/types';
+import type { ScoredRacket, RacketRole } from '@/lib/types';
 
 type Props = {
   rank: 1 | 2 | 3;
   item: ScoredRacket;
+  role: RacketRole;
   reason: string;
   showElbowNote: boolean;
 };
 
-const RANK_LABEL: Record<number, string> = {
-  1: '総合ベストマッチ',
-  2: 'もっと扱いやすく',
-  3: 'もっと攻めたいなら',
+const ROLE_LABEL: Record<RacketRole, string> = {
+  best: '総合ベストマッチ',
+  easier: 'もっと扱いやすく',
+  aggressive: 'もっと攻めたいなら',
+  alternative: 'こちらもおすすめ',
 };
 
 const RANK_COLOR: Record<number, string> = {
@@ -21,7 +23,7 @@ const RANK_COLOR: Record<number, string> = {
   3: 'bg-orange-300 text-orange-900',
 };
 
-export function ResultCard({ rank, item, reason, showElbowNote }: Props) {
+export function ResultCard({ rank, item, role, reason, showElbowNote }: Props) {
   const { racket, score } = item;
 
   return (
@@ -29,7 +31,7 @@ export function ResultCard({ rank, item, reason, showElbowNote }: Props) {
       <CardContent className="p-5">
         <div className="flex items-center gap-2 mb-3">
           <span className={`text-xs font-bold px-2 py-1 rounded-full ${RANK_COLOR[rank]}`}>
-            {RANK_LABEL[rank]}
+            {ROLE_LABEL[role]}
           </span>
           <Badge variant="outline" className="text-xs">
             適合度 {Math.round(score)}%

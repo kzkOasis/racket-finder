@@ -1,4 +1,4 @@
-import type { RacketSpec, AxisScores, Target, ScoredRacket, HardFilter } from './types';
+import type { RacketSpec, AxisScores, Target, ScoredRacket, RankedRacket, HardFilter } from './types';
 import { AXES } from './types';
 import { ONE_SIDED_AXES, SCORE_PENALTY_DIVISOR } from './constants';
 import { computeAxisScores } from './axes';
@@ -43,7 +43,7 @@ export function runDiagnosis(
   target: Target,
 ): {
   candidates: ScoredRacket[];
-  top: ScoredRacket[];
+  top: RankedRacket[];
   noCandidates: boolean;
   budgetNeeded?: number;
 } {
@@ -89,11 +89,11 @@ export function runDiagnosis(
   return { candidates: scored, top, noCandidates: false };
 }
 
-export function diversify(scored: ScoredRacket[]): ScoredRacket[] {
+export function diversify(scored: ScoredRacket[]): RankedRacket[] {
   if (scored.length === 0) return [];
 
   const first = scored[0];
-  const result: ScoredRacket[] = [first];
+  const result: RankedRacket[] = [{ ...first, role: 'best' }];
 
   const differentFrom1 = scored.filter(s => s.racket.series !== first.racket.series);
   if (differentFrom1.length === 0) return result;
@@ -103,8 +103,9 @@ export function diversify(scored: ScoredRacket[]): ScoredRacket[] {
   const rank2pool = differentFrom1.filter(
     s => s.axisScores.comfort + s.axisScores.maneuverability > firstCM,
   );
-  const second = rank2pool.length > 0 ? rank2pool[0] : differentFrom1[0];
-  result.push(second);
+  const isEasier = rank2pool.length > 0;
+  const second = isEasier ? rank2pool[0] : differentFrom1[0];
+  result.push({ ...second, role: isEasier ? 'easier' : 'alternative' });
 
   const differentFrom1and2 = scored.filter(
     s => s.racket.series !== first.racket.series && s.racket.series !== second.racket.series,
@@ -116,8 +117,9 @@ export function diversify(scored: ScoredRacket[]): ScoredRacket[] {
   const rank3pool = differentFrom1and2.filter(
     s => s.axisScores.control + s.axisScores.spin > firstCS,
   );
-  const third = rank3pool.length > 0 ? rank3pool[0] : differentFrom1and2[0];
-  result.push(third);
+  const isAggressive = rank3pool.length > 0;
+  const third = isAggressive ? rank3pool[0] : differentFrom1and2[0];
+  result.push({ ...third, role: isAggressive ? 'aggressive' : 'alternative' });
 
   return result;
 }

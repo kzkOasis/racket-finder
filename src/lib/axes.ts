@@ -7,9 +7,6 @@ function norm(value: number, all: number[]): number {
   return max === min ? 50 : ((value - min) / (max - min)) * 100;
 }
 
-function inv(value: number, all: number[]): number {
-  return 100 - norm(value, all);
-}
 
 export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores> {
   const allSwingWeight = rackets.map(r => r.swingWeight);

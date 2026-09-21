@@ -233,7 +233,7 @@ describe('diversify: 2位・3位の選び方', () => {
   const axisScoresMap = computeAxisScores(allRackets);
 
   function makeScoredRacket(r: RacketSpec, score: number): ScoredRacket {
-    return { racket: r, score, axisScores: axisScoresMap.get(r.id)! };
+    return { racket: r, score, axisScores: { ...axisScoresMap.get(r.id)! } };
   }
 
   it('2位は1位と別シリーズ', () => {
@@ -272,7 +272,7 @@ describe('diversify: 2位・3位の選び方', () => {
     expect(top[1].racket.series).toBe('SeriesB');
   });
 
-  it('2位の条件を満たす候補がない場合はスコア順で埋める', () => {
+  it('2位の条件を満たす候補がない場合はスコア順で埋め role が alternative になる', () => {
     const [a, b] = allRackets.slice(0, 2);
     const scored: ScoredRacket[] = [
       makeScoredRacket(a, 90),
@@ -287,6 +287,29 @@ describe('diversify: 2位・3位の選び方', () => {
     const top = diversify(scored);
     expect(top.length).toBe(2);
     expect(top[1].racket.series).toBe('OtherSeries');
+    expect(top[1].role).toBe('alternative');
+  });
+
+  it('3位の条件を満たす候補がない場合は role が alternative になる', () => {
+    const [a, b, c] = allRackets.slice(0, 3);
+    const scored: ScoredRacket[] = [
+      makeScoredRacket(a, 90),
+      makeScoredRacket({ ...b, series: 'SeriesB' }, 80),
+      makeScoredRacket({ ...c, series: 'SeriesC' }, 70),
+    ];
+    // 1位のCS合計を最大にして3位候補が条件未達になるようにする
+    scored[0].axisScores.control = 100;
+    scored[0].axisScores.spin = 100;
+    scored[2].axisScores.control = 0;
+    scored[2].axisScores.spin = 0;
+    // 2位はeasierになるようCMを高くする
+    const firstCM = scored[0].axisScores.comfort + scored[0].axisScores.maneuverability;
+    scored[1].axisScores.comfort = firstCM / 2 + 1;
+    scored[1].axisScores.maneuverability = firstCM / 2 + 1;
+
+    const top = diversify(scored);
+    expect(top.length).toBe(3);
+    expect(top[2].role).toBe('alternative');
   });
 
   it('候補が3本未満なら水増ししない', () => {

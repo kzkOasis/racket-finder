@@ -75,6 +75,12 @@ export type ScoredRacket = {
   axisScores: AxisScores;
 };
 
+export type RacketRole = 'best' | 'easier' | 'aggressive' | 'alternative';
+
+export type RankedRacket = ScoredRacket & {
+  role: RacketRole;
+};
+
 export type DiagnosisResult = {
   candidates: ScoredRacket[];
   top: ScoredRacket[];

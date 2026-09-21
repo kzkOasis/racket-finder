@@ -108,6 +108,7 @@ export default function ResultPageContent() {
               key={item.racket.id}
               rank={ranks[i]}
               item={item}
+              role={item.role}
               reason={generateReason(item.racket.model, item.axisScores, target)}
               showElbowNote={showElbowNote && i === 0}
             />
