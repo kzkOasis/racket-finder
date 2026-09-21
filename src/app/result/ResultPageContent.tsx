@@ -8,10 +8,11 @@ import { runDiagnosis } from '@/lib/score';
 import { generateReason } from '@/lib/reason';
 import { ResultCard } from '@/components/ResultCard';
 import { AxisRadarChart } from '@/components/AxisRadarChart';
+import { ComparisonTable } from '@/components/ComparisonTable';
 import type { RacketSpec } from '@/lib/types';
 import racketData from '@/data/rackets.json';
 
-const CHART_COLOR = '#ef4444';
+const CHART_COLORS = ['#ef4444', '#3b82f6', '#22c55e'] as const;
 
 export default function ResultPageContent() {
   const searchParams = useSearchParams();
@@ -49,7 +50,7 @@ export default function ResultPageContent() {
             {result.budgetNeeded && (
               <>
                 <p className="text-gray-600 text-sm mb-6">
-                  ¥{result.budgetNeeded.toLocaleString()}円まで広げると候補が見つかります。
+                  ¥{result.budgetNeeded.toLocaleString()}まで広げると候補が見つかります。
                 </p>
                 <button
                   onClick={() => {
@@ -87,11 +88,12 @@ export default function ResultPageContent() {
     );
   }
 
-  const item = top[0];
   const showElbowNote = answers.q5 === 'painful';
   const shareUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/result?a=${encoded}`
     : `/result?a=${encoded}`;
+
+  const ranks = [1, 2, 3] as const;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -100,13 +102,16 @@ export default function ResultPageContent() {
         <p className="text-gray-500 text-sm mb-8">回答をもとに最適なラケットを選びました</p>
 
         {/* 結果カード */}
-        <div className="mb-10">
-          <ResultCard
-            rank={1}
-            item={item}
-            reason={generateReason(item.racket.model, item.axisScores, target)}
-            showElbowNote={showElbowNote}
-          />
+        <div className="flex flex-col gap-4 mb-10">
+          {top.map((item, i) => (
+            <ResultCard
+              key={item.racket.id}
+              rank={ranks[i]}
+              item={item}
+              reason={generateReason(item.racket.model, item.axisScores, target)}
+              showElbowNote={showElbowNote && i === 0}
+            />
+          ))}
         </div>
 
         {/* レーダーチャート */}
@@ -114,9 +119,21 @@ export default function ResultPageContent() {
           <h2 className="font-bold text-gray-900 mb-4">6軸チャート</h2>
           <AxisRadarChart
             ideal={target.ideal}
-            rackets={[{ name: item.racket.model, scores: item.axisScores, color: CHART_COLOR }]}
+            rackets={top.map((item, i) => ({
+              name: item.racket.model,
+              scores: item.axisScores,
+              color: CHART_COLORS[i],
+            }))}
           />
         </div>
+
+        {/* 比較表 */}
+        {top.length > 1 && (
+          <div className="bg-white rounded-lg p-5 shadow-sm mb-6">
+            <h2 className="font-bold text-gray-900 mb-4">比較表</h2>
+            <ComparisonTable items={top} />
+          </div>
+        )}
 
         {/* シェアボタン */}
         <div className="bg-white rounded-lg p-5 shadow-sm mb-6">

@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { buildTarget } from '../target';
-import { runDiagnosis } from '../score';
-import type { Answers, RacketSpec } from '../types';
+import { runDiagnosis, diversify } from '../score';
+import { computeAxisScores } from '../axes';
+import type { Answers, RacketSpec, ScoredRacket } from '../types';
 import rackets from '../../data/rackets.json';
 
 const r = rackets as RacketSpec[];
@@ -198,17 +199,100 @@ describe('テストケース9: 同一入力を2回', () => {
 });
 
 describe('テストケース10: 上位3本のseriesが重複しない', () => {
-  it('top3のseriesがすべて異なる', () => {
+  it('top3を返し、すべてのseriesが異なる', () => {
     const result = diagnose({
       q1: 'intermediate',
       q2: 'baseline',
       q3: 'standard',
       q4: [],
     });
+    expect(result.top.length).toBeGreaterThanOrEqual(1);
+    expect(result.top.length).toBeLessThanOrEqual(3);
+
+    const seriesList = result.top.map(s => s.racket.series);
+    const unique = new Set(seriesList);
+    expect(unique.size).toBe(seriesList.length);
+  });
+
+  it('候補が十分あるとき3本返る', () => {
+    const result = diagnose({
+      q1: 'intermediate',
+      q2: 'baseline',
+      q3: 'standard',
+      q4: [],
+      q8: null,
+      q9: [],
+    });
+    // ラケット40本、シリーズが3つ以上あるはずなので3本返る
+    expect(result.top.length).toBe(3);
+  });
+});
+
+describe('diversify: 2位・3位の選び方', () => {
+  const allRackets = rackets as RacketSpec[];
+  const axisScoresMap = computeAxisScores(allRackets);
+
+  function makeScoredRacket(r: RacketSpec, score: number): ScoredRacket {
+    return { racket: r, score, axisScores: axisScoresMap.get(r.id)! };
+  }
+
+  it('2位は1位と別シリーズ', () => {
+    const result = diagnose({ q1: 'intermediate', q2: 'baseline', q3: 'standard', q4: [], q8: null, q9: [] });
     if (result.top.length >= 2) {
-      const seriesList = result.top.map(s => s.racket.series);
-      const unique = new Set(seriesList);
-      expect(unique.size).toBe(seriesList.length);
+      expect(result.top[1].racket.series).not.toBe(result.top[0].racket.series);
     }
+  });
+
+  it('3位は1位・2位と別シリーズ', () => {
+    const result = diagnose({ q1: 'intermediate', q2: 'baseline', q3: 'standard', q4: [], q8: null, q9: [] });
+    if (result.top.length >= 3) {
+      expect(result.top[2].racket.series).not.toBe(result.top[0].racket.series);
+      expect(result.top[2].racket.series).not.toBe(result.top[1].racket.series);
+    }
+  });
+
+  it('2位は comfort+maneuverability が1位より高い候補を優先する', () => {
+    // 候補が3本ある状態をスコア付きで手動構築
+    const [a, b, c] = allRackets.slice(0, 3);
+    const scored: ScoredRacket[] = [
+      makeScoredRacket(a, 90), // 1位（シリーズA）
+      makeScoredRacket({ ...b, series: 'SeriesB' }, 80), // 高CM
+      makeScoredRacket({ ...c, series: 'SeriesC' }, 75), // 低CM
+    ];
+    // bのCM合計がaより高くなるように調整
+    const firstCM = scored[0].axisScores.comfort + scored[0].axisScores.maneuverability;
+    scored[1].axisScores.comfort = firstCM / 2 + 1;
+    scored[1].axisScores.maneuverability = firstCM / 2 + 1;
+    scored[2].axisScores.comfort = 0;
+    scored[2].axisScores.maneuverability = 0;
+
+    const top = diversify(scored);
+    expect(top.length).toBeGreaterThanOrEqual(2);
+    // 2位はb（SeriesB）
+    expect(top[1].racket.series).toBe('SeriesB');
+  });
+
+  it('2位の条件を満たす候補がない場合はスコア順で埋める', () => {
+    const [a, b] = allRackets.slice(0, 2);
+    const scored: ScoredRacket[] = [
+      makeScoredRacket(a, 90),
+      makeScoredRacket({ ...b, series: 'OtherSeries' }, 80),
+    ];
+    // bのCMを0にして条件不満足にする
+    scored[0].axisScores.comfort = 100;
+    scored[0].axisScores.maneuverability = 100;
+    scored[1].axisScores.comfort = 0;
+    scored[1].axisScores.maneuverability = 0;
+
+    const top = diversify(scored);
+    expect(top.length).toBe(2);
+    expect(top[1].racket.series).toBe('OtherSeries');
+  });
+
+  it('候補が3本未満なら水増ししない', () => {
+    const [a] = allRackets;
+    const scored: ScoredRacket[] = [makeScoredRacket(a, 90)];
+    const top = diversify(scored);
+    expect(top.length).toBe(1);
   });
 });
