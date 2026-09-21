@@ -43,7 +43,7 @@ export function ResultCard({ rank, item, role, reason, showElbowNote }: Props) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={racket.imageUrl}
-              alt={racket.model}
+              alt={`${racket.brand} ${racket.model}`}
               className="w-24 h-24 object-contain flex-shrink-0"
             />
           ) : (
