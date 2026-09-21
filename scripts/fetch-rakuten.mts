@@ -212,6 +212,7 @@ async function main(): Promise<void> {
   const targets = rackets.filter(r => !only || r.id === only).slice(0, limit);
 
   let authMode: AuthMode | null = (process.env.RAKUTEN_AUTH_MODE as AuthMode) ?? null;
+  let apiFailed = false;
   const updated = new Map<string, RacketSpec>();
   const report: string[] = [];
 
@@ -251,6 +252,7 @@ async function main(): Promise<void> {
     }
 
     if (items === null) {
+      apiFailed = true;
       report.push(`✗ ${racket.id}: APIエラー ${lastError}`);
       console.error('  全ての認証方式が失敗する場合は、公式ドキュメントでキーの渡し方を確認し、');
       console.error('  RAKUTEN_AUTH_MODE=query|header|bearer や RAKUTEN_API_BASE で上書きしてください。');
@@ -275,6 +277,9 @@ async function main(): Promise<void> {
     writeFileSync(dataPath, JSON.stringify(rackets.map(r => updated.get(r.id) ?? r), null, 2), 'utf-8');
     console.log('src/data/rackets.json を更新しました。git diff で確認してからコミットしてください。');
   }
+
+  // 定期実行（GitHub Actions）で気づけるよう、APIに繋がらなかった場合は異常終了する
+  if (apiFailed) process.exitCode = 1;
 }
 
 if (process.argv[1] && import.meta.url === `file://${path.resolve(process.argv[1])}`) {
