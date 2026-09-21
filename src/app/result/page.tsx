@@ -1,11 +1,19 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import ResultPageContent from './ResultPageContent';
-import { decodeAnswers } from '@/lib/share';
-import { buildTarget } from '@/lib/target';
-import { runDiagnosis } from '@/lib/score';
-import type { RacketSpec } from '@/lib/types';
-import racketData from '@/data/rackets.json';
+import { getTopRacket } from '@/lib/result';
+import { OG_SIZE } from '@/lib/og';
+
+const OG_BASE = { type: 'website' as const, locale: 'ja_JP' };
+
+function ogImage(encoded?: string) {
+  return {
+    url: encoded ? `/api/og?a=${encodeURIComponent(encoded)}` : '/api/og',
+    width: OG_SIZE.width,
+    height: OG_SIZE.height,
+    alt: 'テニスラケット診断の結果',
+  };
+}
 
 export async function generateMetadata(
   props: PageProps<'/result'>,
@@ -13,48 +21,22 @@ export async function generateMetadata(
   const searchParams = await props.searchParams;
   const encoded = typeof searchParams?.a === 'string' ? searchParams.a : '';
 
-  const fallback: Metadata = {
-    title: '診断結果 | テニスラケット診断',
-    description: 'あなたのプレースタイルに合ったテニスラケットの診断結果です。',
-    openGraph: {
-      title: '診断結果 | テニスラケット診断',
-      description: 'あなたのプレースタイルに合ったテニスラケットの診断結果です。',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary',
-      title: '診断結果 | テニスラケット診断',
-      description: 'あなたのプレースタイルに合ったテニスラケットの診断結果です。',
-    },
-  };
+  const racket = getTopRacket(encoded);
 
-  if (!encoded) return fallback;
-
-  const answers = decodeAnswers(encoded);
-  if (!answers) return fallback;
-
-  const target = buildTarget(answers);
-  const result = runDiagnosis(racketData as RacketSpec[], target);
-
-  if (result.noCandidates || result.top.length === 0) return fallback;
-
-  const best = result.top[0].racket;
-  const title = `${best.model} がおすすめ | テニスラケット診断`;
-  const description = `診断結果: ${best.brand} ${best.model} があなたのプレースタイルに最もマッチしました。`;
+  const title = racket
+    ? `${racket.model} がおすすめ | テニスラケット診断`
+    : '診断結果 | テニスラケット診断';
+  const description = racket
+    ? `診断結果: ${racket.brand} ${racket.model} があなたのプレースタイルに最もマッチしました。`
+    : 'あなたのプレースタイルに合ったテニスラケットの診断結果です。';
+  // 回答が不正なときはサイト共通の画像（/api/og のパラメータなし）になる
+  const images = [ogImage(racket ? encoded : undefined)];
 
   return {
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary',
-      title,
-      description,
-    },
+    openGraph: { ...OG_BASE, title, description, images },
+    twitter: { card: 'summary_large_image', title, description, images },
   };
 }
 
