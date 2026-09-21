@@ -59,9 +59,6 @@ export function ResultCard({ rank, item, role, reason, showElbowNote }: Props) {
             <p className="text-sm text-gray-500 mt-1">
               {racket.weight}g / フェイス {racket.headSize}in² / {racket.pattern}
             </p>
-            <p className="text-sm text-gray-500">
-              参考価格: ¥{racket.price.toLocaleString()}
-            </p>
           </div>
         </div>
 
@@ -84,7 +81,7 @@ export function ResultCard({ rank, item, role, reason, showElbowNote }: Props) {
                 rel="noopener noreferrer sponsored"
                 className="flex-1 text-center text-sm bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded transition-colors"
               >
-                楽天で見る <span className="text-xs opacity-75">PR</span>
+                楽天で価格を見る <span className="text-xs opacity-75">PR</span>
               </a>
             )}
             {racket.affiliateUrl.amazon && (

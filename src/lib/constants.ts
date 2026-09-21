@@ -1,4 +1,4 @@
-import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, Budget } from './types';
+import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType } from './types';
 
 // ======= Q1: レベル基準値 =======
 
@@ -178,7 +178,6 @@ export const STRING_TYPE_IDEAL_DELTA: Record<StringType, Partial<AxisScores>> = 
 
 // ======= Q8: 予算 =======
 
-export const BUDGET_OPTIONS: Budget[] = [20000, 30000, 40000, null];
 
 // ======= パターンボーナス =======
 

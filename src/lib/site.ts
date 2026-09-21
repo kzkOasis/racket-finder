@@ -6,4 +6,4 @@ export const SITE_URL =
 export const SITE_DOMAIN = SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
 export const SITE_NAME = 'テニスラケット診断';
-export const SITE_TAGLINE = '9問・約1分で、あなたに合うラケットを3本提案';
+export const SITE_TAGLINE = '8問・約1分で、あなたに合うラケットを3本提案';

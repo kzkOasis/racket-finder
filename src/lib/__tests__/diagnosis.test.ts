@@ -16,7 +16,6 @@ const defaults: Answers = {
   q5: 'none',
   q6: '290to305',
   q7: 'nylon',
-  q8: null,
   q9: [],
 };
 
@@ -36,9 +35,7 @@ describe('テストケース1: 初中級/ベースライン/標準/飛ばない/
       q5: 'none',
       q6: '290to305',
       q7: 'nylon',
-      q8: 30000,
     });
-    expect(result.noCandidates).toBe(false);
     expect(result.top.length).toBeGreaterThanOrEqual(1);
     const first = result.top[0];
     // フェイス大きめ（100inch²以上）またはスイングウェイト高め
@@ -56,9 +53,7 @@ describe('テストケース2: 中上級/ベースライン/フルスイング/�
       q5: 'none',
       q6: 'over305',
       q7: 'poly',
-      q8: null,
     });
-    expect(result.noCandidates).toBe(false);
     expect(result.top.length).toBeGreaterThanOrEqual(1);
     const first = result.top[0];
     // 薄めフレーム or 小さめフェイス
@@ -78,7 +73,6 @@ describe('テストケース3: 中級/フルスイング/飛ばない', () => {
     const target = buildTarget({ ...defaults, q1: 'intermediate', q2: 'allround', q3: 'full', q4: ['noPower'], q5: 'none' });
     // 理想power: 55(base) -18(full) +15(noPower) -5(nylon) = 47
     expect(target.ideal.power).toBeCloseTo(47, 0);
-    expect(result.noCandidates).toBe(false);
     // Pure Drive（最高パワー）が1位でないこと
     if (result.top.length > 0) {
       expect(result.top[0].racket.id).not.toBe('babolat-pure-drive-2021');
@@ -96,7 +90,6 @@ describe('テストケース4: 初級/痛みがある', () => {
       q5: 'painful',
       q6: 'unknown',
       q7: 'nylon',
-      q8: null,
     });
     for (const s of result.candidates) {
       expect(s.racket.ra).toBeLessThanOrEqual(66);
@@ -115,7 +108,6 @@ describe('テストケース5: 痛みがある + 振り遅れる', () => {
       q5: 'painful',
       q6: '290to305',
       q7: 'nylon',
-      q8: null,
     });
     // クラッシュしないこと
     expect(result).toBeDefined();
@@ -135,15 +127,14 @@ describe('テストケース6: ネット中心/中級', () => {
       q4: [],
       q5: 'none',
     });
-    expect(result.noCandidates).toBe(false);
     expect(result.top.length).toBeGreaterThanOrEqual(1);
     // 1位のvolleyスコアが高いこと
     expect(result.top[0].axisScores.volley).toBeGreaterThan(30);
   });
 });
 
-describe('テストケース7: 予算〜20,000円/中上級', () => {
-  it('候補0のときエラーではなく budgetNeeded が返る', () => {
+describe('テストケース7: 予算の概念がないこと', () => {
+  it('厳しい条件でも「予算が足りない」ではなく、条件に合うものを返す', () => {
     const result = diagnose({
       q1: 'advanced',
       q2: 'allround',
@@ -152,15 +143,8 @@ describe('テストケース7: 予算〜20,000円/中上級', () => {
       q5: 'none',
       q6: 'over305',
       q7: 'poly',
-      q8: 20000,
     });
-    // 候補0ならbudgetNeededが設定されている
-    if (result.noCandidates) {
-      expect(result.budgetNeeded).toBeDefined();
-      expect(typeof result.budgetNeeded).toBe('number');
-    } else {
-      expect(result.top.length).toBeGreaterThanOrEqual(1);
-    }
+    expect(result.top.length).toBeGreaterThanOrEqual(1);
   });
 });
 
@@ -174,10 +158,9 @@ describe('テストケース8: 全問で最も極端な回答', () => {
       q5: 'painful',
       q6: 'over305',
       q7: 'poly',
-      q8: 20000,
     });
     expect(result).toBeDefined();
-    expect(typeof result.noCandidates).toBe('boolean');
+    expect(Array.isArray(result.top)).toBe(true);
   });
 });
 
@@ -220,7 +203,6 @@ describe('テストケース10: 上位3本のseriesが重複しない', () => {
       q2: 'baseline',
       q3: 'standard',
       q4: [],
-      q8: null,
       q9: [],
     });
     // ラケット40本、シリーズが3つ以上あるはずなので3本返る
@@ -237,14 +219,14 @@ describe('diversify: 2位・3位の選び方', () => {
   }
 
   it('2位は1位と別シリーズ', () => {
-    const result = diagnose({ q1: 'intermediate', q2: 'baseline', q3: 'standard', q4: [], q8: null, q9: [] });
+    const result = diagnose({ q1: 'intermediate', q2: 'baseline', q3: 'standard', q4: [], q9: [] });
     if (result.top.length >= 2) {
       expect(result.top[1].racket.series).not.toBe(result.top[0].racket.series);
     }
   });
 
   it('3位は1位・2位と別シリーズ', () => {
-    const result = diagnose({ q1: 'intermediate', q2: 'baseline', q3: 'standard', q4: [], q8: null, q9: [] });
+    const result = diagnose({ q1: 'intermediate', q2: 'baseline', q3: 'standard', q4: [], q9: [] });
     if (result.top.length >= 3) {
       expect(result.top[2].racket.series).not.toBe(result.top[0].racket.series);
       expect(result.top[2].racket.series).not.toBe(result.top[1].racket.series);

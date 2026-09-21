@@ -14,7 +14,7 @@ export function getTopRacket(encoded: string): RacketSpec | null {
     const answers = decodeAnswers(encoded);
     if (!answers) return null;
     const result = runDiagnosis(racketData as RacketSpec[], buildTarget(answers));
-    if (result.noCandidates || result.top.length === 0) return null;
+    if (result.top.length === 0) return null;
     return result.top[0].racket;
   } catch {
     return null;

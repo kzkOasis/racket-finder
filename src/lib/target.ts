@@ -124,11 +124,6 @@ export function buildTarget(answers: Answers): Target {
   // 重みの正規化
   normalizeWeight(weight, WEIGHT_NORMALIZE_TARGET);
 
-  // Q8: 予算フィルタ
-  if (answers.q8 !== null) {
-    filters.push({ type: 'price_max', value: answers.q8 });
-  }
-
   // Q9: ブランドフィルタ
   if (answers.q9.length > 0) {
     filters.push({ type: 'brand', values: answers.q9 });

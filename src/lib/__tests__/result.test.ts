@@ -11,7 +11,6 @@ const answers: Answers = {
   q5: 'none',
   q6: '290to305',
   q7: 'nylon',
-  q8: null,
   q9: [],
 };
 
@@ -40,9 +39,13 @@ describe('getTopRacket（OGP画像・メタデータ用）', () => {
     expect(getTopRacket('9-9-9-0-9-9-9-9-9')).toBeNull();
   });
 
-  it('予算内に候補がない場合は null', () => {
-    // 予算2万円以下 & Prince のみ（Prince の最安は26,000円）
-    const encoded = encodeAnswers({ ...answers, q8: 20000, q9: ['Prince'] });
-    expect(getTopRacket(encoded)).toBeNull();
+  it('旧形式のシェアURL（予算つき9パーツ）も同じ結果になる', () => {
+    const current = encodeAnswers(answers);
+    // 8番目は廃止した予算の枠。0（〜20,000円）が入った旧URLでも結果は変わらない
+    const legacy = current.split('-').map((v, i) => (i === 7 ? '0' : v)).join('-');
+    const a = getTopRacket(current);
+    const b = getTopRacket(legacy);
+    expect(a).not.toBeNull();
+    expect(b?.id).toBe(a?.id);
   });
 });
