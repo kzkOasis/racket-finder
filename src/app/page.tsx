@@ -11,8 +11,11 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
-/** 導入部。クライアントコンポーネントに渡すが、描画はサーバー側なので初期HTMLに入る。 */
-function Hero() {
+/**
+ * 見出しとリード文。クライアントコンポーネントに渡すが、描画はサーバー側なので初期HTMLに入る。
+ * 「診断を始める」ボタンはこのすぐ下に出る。
+ */
+function Lead() {
   return (
     <section>
       <h1 className="text-2xl font-bold text-gray-900">
@@ -22,8 +25,15 @@ function Hero() {
         8問・約1分。レベルやプレースタイル、いま困っていること、肘や肩の状態から、
         あなたに合う硬式テニスラケットを{RACKET_COUNT}本の中から3本提案します。
       </p>
+    </section>
+  );
+}
 
-      <ul className="mt-5 flex flex-col gap-3">
+/** 特徴と対応ブランド。ボタンより下に置く。 */
+function Features() {
+  return (
+    <section>
+      <ul className="flex flex-col gap-3">
         <li className="rounded-lg bg-white p-4 text-sm leading-relaxed text-gray-700 shadow-sm">
           <span className="font-bold text-gray-900">6つの軸で相性を計算</span>
           <br />
@@ -99,5 +109,5 @@ function Guide() {
 }
 
 export default function Home() {
-  return <Diagnosis hero={<Hero />} guide={<Guide />} />;
+  return <Diagnosis lead={<Lead />} features={<Features />} guide={<Guide />} />;
 }

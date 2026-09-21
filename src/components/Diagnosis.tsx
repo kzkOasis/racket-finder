@@ -21,13 +21,15 @@ type Answers = {
 const TOTAL = 8;
 
 type Props = {
-  /** サーバーコンポーネントで描画する導入部（見出し・説明）。検索エンジンに読ませるため */
-  hero: ReactNode;
-  /** 同じくサーバーコンポーネントで描画するラケット選びの解説 */
+  /** 見出しとリード文。ボタンより上に出す */
+  lead: ReactNode;
+  /** 特徴と対応ブランド。ボタンより下 */
+  features: ReactNode;
+  /** ラケット選びの解説 */
   guide: ReactNode;
 };
 
-export function Diagnosis({ hero, guide }: Props) {
+export function Diagnosis({ lead, features, guide }: Props) {
   const router = useRouter();
   // step 0 = スタート画面、1〜8 = 質問
   const [step, setStep] = useState(0);
@@ -69,14 +71,22 @@ export function Diagnosis({ hero, guide }: Props) {
     return (
       <main className="min-h-screen bg-gray-50">
         <div className="mx-auto max-w-xl px-4 py-10">
-          {hero}
+          {lead}
           <button
             onClick={() => setStep(1)}
-            className="my-8 w-full rounded-lg bg-blue-500 px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-blue-600"
+            className="my-6 w-full rounded-lg bg-blue-500 px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-blue-600"
           >
             診断を始める（無料）
           </button>
+          {features}
+          <div className="my-8 border-t border-gray-200" />
           {guide}
+          <button
+            onClick={() => setStep(1)}
+            className="mt-8 w-full rounded-lg bg-blue-500 px-4 py-4 text-lg font-bold text-white transition-colors hover:bg-blue-600"
+          >
+            診断を始める（無料）
+          </button>
         </div>
       </main>
     );
