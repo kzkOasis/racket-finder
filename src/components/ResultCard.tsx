@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import type { ScoredRacket, RacketRole } from '@/lib/types';
@@ -59,6 +60,12 @@ export function ResultCard({ rank, item, role, reason, showElbowNote }: Props) {
             <p className="text-sm text-gray-500 mt-1">
               {racket.weight}g / フェイス {racket.headSize}in² / {racket.pattern}
             </p>
+            <Link
+              href={`/rackets/${racket.id}`}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              スペックと特徴を見る
+            </Link>
           </div>
         </div>
 
