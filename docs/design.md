@@ -164,6 +164,8 @@ git diff src/data/rackets.json         # 目視で確認してからコミット
 - 該当が無かった機種は既存の値を維持する（勝手に空にしない）
 - `price` は触らない（診断でも表示でも使っていないため）
 - APIを使うので、フッターに楽天ウェブサービスのクレジット表記を出している（`layout.tsx`）
+- `.github/workflows/update-rakuten.yml` が毎週月曜9時（JST）に同じスクリプトを走らせ、差分があればプルリクエストを作る。シークレット（`RAKUTEN_APP_ID` / `RAKUTEN_ACCESS_KEY` / `RAKUTEN_AFFILIATE_ID`）が未設定のあいだは何もせず警告だけ残す
+- APIに繋がらなかった場合、スクリプトは終了コード1で終わる（定期実行が失敗として見えるように）
 
 ### 5.2 回答（`Answers`）とシェアURL
 
