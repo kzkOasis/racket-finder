@@ -45,6 +45,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           本ページはアフィリエイト広告を含みます
         </div>
         {children}
+        <footer className="mt-auto border-t border-gray-200 py-4 px-4 text-center text-xs text-gray-500">
+          <a
+            href="https://webservice.rakuten.co.jp/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline"
+          >
+            Supported by 楽天ウェブサービス
+          </a>
+        </footer>
         <Analytics />
       </body>
     </html>

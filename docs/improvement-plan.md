@@ -42,12 +42,13 @@
 
 **作業**
 - 楽天ウェブサービスでアプリIDを発行し、楽天市場商品検索APIで各ラケットを検索して `mediumImageUrls` と商品ページの `affiliateUrl`（アフィリエイトIDを渡すと返る）を取得する
-- 取得は**ビルド前に手動で実行するスクリプト**とする（`scripts/fetch-rakuten.ts`）。結果は `rackets.json` の `imageUrl` と `affiliateUrl.rakuten` に書き戻す。本番のページ表示のたびにAPIを呼ばない
+- 取得は**ビルド前に手動で実行するスクリプト**とする（`scripts/fetch-rakuten.mts`）。結果は `rackets.json` の `imageUrl` と `affiliateUrl.rakuten` に書き戻す。本番のページ表示のたびにAPIを呼ばない
 - 検索結果が意図しない商品（ガット・ケースなど）にならないよう、キーワードに「硬式 ラケット」を付け、価格の下限（例: 10,000円）で絞る。取得結果は目で確認してからコミットする
 - APIキー・アフィリエイトIDは `.env.local` に置き、コミットしない
 - API を使うので、フッターに楽天ウェブサービスのクレジット表記を入れる（文言とリンクは楽天ウェブサービスの規約に従う）
 - 画像が取れなかった機種は、現状どおり「ブランド名＋モデル名」のプレースホルダーを出す
 - APIのエンドポイントとパラメータは最新の楽天ウェブサービスのドキュメントで確認すること
+- **2026年の仕様変更**: エンドポイントが `openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/<version>` に移行し、`applicationId` に加えて `accessKey` が必須になった
 
 **完了条件**
 - `rackets.json` に tennis-warehouse.com の URL が残っていない

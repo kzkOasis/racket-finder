@@ -140,6 +140,25 @@ type RacketSpec = {
 - `affiliateUrl.amazon`: 全件空（ボタンは出ない）
 - `price`: 手入力の固定値で、**診断にも画面表示にも使っていない**（価格は楽天の商品ページで見てもらう方針。将来また使うかもしれないのでデータは残してある）
 
+### 5.1.1 楽天データの更新手順（`scripts/fetch-rakuten.mts`）
+
+画像とアフィリエイトURLは、楽天市場商品検索APIから取得して `rackets.json` に書き戻す。
+ビルド前に手動で走らせるもので、**本番のページ表示ではAPIを呼ばない**。
+
+```bash
+# .env.local（.gitignore 済み）に3つ入れる
+#   RAKUTEN_APP_ID / RAKUTEN_ACCESS_KEY / RAKUTEN_AFFILIATE_ID
+npm run fetch:rakuten -- --dry-run     # まず書き込まずに結果を見る
+npm run fetch:rakuten                  # 問題なければ書き戻す
+git diff src/data/rackets.json         # 目視で確認してからコミット
+```
+
+- 2026年の仕様変更でエンドポイントが `openapi.rakuten.co.jp/ichibams/api/...` に移り、`applicationId` に加えて `accessKey` が必要になった。キーの渡し方は最初の1件で自動判定する（`RAKUTEN_AUTH_MODE` で固定も可）
+- ガット・ケース・ジュニア・中古などはキーワード一致の採点で除外する。それでも誤検出はありうるので、**必ず `git diff` で目視確認する**
+- 該当が無かった機種は既存の値を維持する（勝手に空にしない）
+- `price` は触らない（診断でも表示でも使っていないため）
+- APIを使うので、フッターに楽天ウェブサービスのクレジット表記を出している（`layout.tsx`）
+
 ### 5.2 回答（`Answers`）とシェアURL
 
 回答は `/result?a=` に**ハイフン区切りの9つの整数**としてエンコードする（`share.ts`）。
