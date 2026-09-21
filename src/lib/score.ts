@@ -17,8 +17,6 @@ function passFilter(racket: RacketSpec, filter: HardFilter): boolean {
       return racket.beamWidth <= filter.value;
     case 'pattern_exclude':
       return racket.pattern !== filter.value;
-    case 'price_max':
-      return racket.price <= filter.value;
     case 'brand':
       return filter.values.includes(racket.brand);
   }
@@ -44,36 +42,12 @@ export function runDiagnosis(
 ): {
   candidates: ScoredRacket[];
   top: RankedRacket[];
-  noCandidates: boolean;
-  budgetNeeded?: number;
 } {
   const axisScoresMap = computeAxisScores(rackets);
 
-  // ハードフィルタ（予算フィルタを除く）で候補を絞る
-  const budgetFilter = target.filters.find(f => f.type === 'price_max');
-  const otherFilters = target.filters.filter(f => f.type !== 'price_max');
-
-  const preFilter = rackets.filter(r => passAllFilters(r, otherFilters));
-
-  // 予算フィルタを適用
-  const candidates = budgetFilter
-    ? preFilter.filter(r => passFilter(r, budgetFilter))
-    : preFilter;
-
+  const candidates = rackets.filter(r => passAllFilters(r, target.filters));
   if (candidates.length === 0) {
-    // 予算を除いた候補があるか確認
-    const withoutBudget = preFilter;
-    if (budgetFilter && withoutBudget.length > 0) {
-      // 予算を段階的に上げて最小限の予算を探す
-      const sorted = withoutBudget.sort((a, b) => a.price - b.price);
-      return {
-        candidates: [],
-        top: [],
-        noCandidates: true,
-        budgetNeeded: sorted[0].price,
-      };
-    }
-    return { candidates: [], top: [], noCandidates: true };
+    return { candidates: [], top: [] };
   }
 
   const scored: ScoredRacket[] = candidates.map(r => ({
@@ -86,7 +60,7 @@ export function runDiagnosis(
 
   const top = diversify(scored);
 
-  return { candidates: scored, top, noCandidates: false };
+  return { candidates: scored, top };
 }
 
 export function diversify(scored: ScoredRacket[]): RankedRacket[] {

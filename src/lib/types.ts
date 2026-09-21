@@ -11,6 +11,7 @@ export type RacketSpec = {
   ra: number;
   beamWidth: number;
   pattern: '16x19' | '16x20' | '18x20' | 'other';
+  /** 参考価格。診断では使わない（価格は楽天の商品ページで見てもらう） */
   price: number;
   imageUrl: string;
   affiliateUrl: {
@@ -39,7 +40,6 @@ export type HardFilter =
   | { type: 'ra_max'; value: number }
   | { type: 'beamWidth_max'; value: number }
   | { type: 'pattern_exclude'; value: string }
-  | { type: 'price_max'; value: number }
   | { type: 'brand'; values: string[] };
 
 export type Target = {
@@ -55,7 +55,6 @@ export type Problem = 'noPower' | 'tooMuchPower' | 'noSpin' | 'lateBall' | 'armP
 export type ElbowCondition = 'none' | 'sometimes' | 'painful';
 export type CurrentWeight = 'under275' | '275to290' | '290to305' | 'over305' | 'unknown';
 export type StringType = 'poly' | 'nylon' | 'unknown';
-export type Budget = 20000 | 30000 | 40000 | null;
 
 export type Answers = {
   q1: Level;
@@ -65,7 +64,7 @@ export type Answers = {
   q5: ElbowCondition;
   q6: CurrentWeight;
   q7: StringType;
-  q8: Budget;
+  // q8（予算）は廃止。シェアURLの互換のため、8番目の枠だけ share.ts が予約している
   q9: string[]; // ブランドフィルタ（空配列 = こだわらない）
 };
 
@@ -85,6 +84,4 @@ export type DiagnosisResult = {
   candidates: ScoredRacket[];
   top: ScoredRacket[];
   target: Target;
-  noCandidates: boolean;
-  budgetNeeded?: number;
 };

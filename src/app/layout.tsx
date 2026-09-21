@@ -17,20 +17,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'テニスラケット診断 | あなたに合ったラケットを見つけよう',
-  description: '9問に答えるだけで、あなたのレベルやプレースタイルに合ったテニスラケットを3本提案します。',
+  description: '8問に答えるだけで、あなたのレベルやプレースタイルに合ったテニスラケットを3本提案します。',
   verification: {
     google: 'Wt4T1dNPslXy6Qg7LDMbkCoz248E2J8ZAqLcI3MCHDg',
   },
   openGraph: {
     title: 'テニスラケット診断 | あなたに合ったラケットを見つけよう',
-    description: '9問に答えるだけで、あなたのレベルやプレースタイルに合ったテニスラケットを3本提案します。',
+    description: '8問に答えるだけで、あなたのレベルやプレースタイルに合ったテニスラケットを3本提案します。',
     type: 'website',
     locale: 'ja_JP',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'テニスラケット診断',
-    description: '9問に答えるだけで最適なラケットを提案！',
+    description: '8問に答えるだけで最適なラケットを提案！',
   },
 };
 

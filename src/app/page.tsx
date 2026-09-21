@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuestionStep } from '@/components/QuestionStep';
-import type { Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, Budget } from '@/lib/types';
+import type { Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType } from '@/lib/types';
 import { encodeAnswers, BRANDS } from '@/lib/share';
 
 type Answers = {
@@ -14,11 +14,10 @@ type Answers = {
   q5: ElbowCondition | null;
   q6: CurrentWeight | null;
   q7: StringType | null;
-  q8: Budget | 'unlimited';
   q9: string[];
 };
 
-const TOTAL = 9;
+const TOTAL = 8;
 
 export default function Home() {
   const router = useRouter();
@@ -31,7 +30,6 @@ export default function Home() {
     q5: null,
     q6: null,
     q7: null,
-    q8: 'unlimited',
     q9: [],
   });
 
@@ -47,7 +45,6 @@ export default function Home() {
         q5: answers.q5!,
         q6: answers.q6!,
         q7: answers.q7!,
-        q8: answers.q8 === 'unlimited' ? null : answers.q8,
         q9: answers.q9,
       };
       const encoded = encodeAnswers(a);
@@ -212,31 +209,10 @@ export default function Home() {
     );
   }
 
-  if (step === 8) {
-    return (
-      <QuestionStep
-        questionNumber={8}
-        total={TOTAL}
-        question="予算の上限は？"
-        options={[
-          { value: 20000, label: '〜20,000円' },
-          { value: 30000, label: '〜30,000円' },
-          { value: 40000, label: '〜40,000円' },
-          { value: 'unlimited', label: '上限なし' },
-        ]}
-        selected={answers.q8 !== null ? [answers.q8] : []}
-        maxSelect={1}
-        onSelect={(v) => setAnswers(a => ({ ...a, q8: v as Budget | 'unlimited' }))}
-        onBack={goBack}
-        onNext={goNext}
-      />
-    );
-  }
-
-  // step === 9
+  // step === 8
   return (
     <QuestionStep
-      questionNumber={9}
+      questionNumber={8}
       total={TOTAL}
       question="気になるブランドはありますか？（任意・複数選択可）"
       options={[
