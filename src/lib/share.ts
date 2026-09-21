@@ -8,7 +8,7 @@ const ELBOW_CONDITIONS: ElbowCondition[] = ['none', 'sometimes', 'painful'];
 const CURRENT_WEIGHTS: CurrentWeight[] = ['under275', '275to290', '290to305', 'over305', 'unknown'];
 const STRING_TYPES: StringType[] = ['poly', 'nylon', 'unknown'];
 const BUDGETS: (Budget | 'unlimited')[] = [20000, 30000, 40000, null];
-export const BRANDS = ['Yonex', 'Wilson', 'Babolat', 'Head', 'Dunlop', 'Technifibre', 'Prince'] as const;
+export const BRANDS = ['Yonex', 'Wilson', 'Babolat', 'Head', 'Dunlop', 'Tecnifibre', 'Prince'] as const;
 
 export function encodeAnswers(answers: Answers): string {
   const q4Encoded = PROBLEMS.reduce((acc, p, i) => {
