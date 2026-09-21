@@ -34,28 +34,51 @@ export function encodeAnswers(answers: Answers): string {
   return parts.join('-');
 }
 
+/** 選択肢配列のインデックスとして妥当なら値を返す。数値でない・範囲外なら null。 */
+function pickOption<T>(options: readonly T[], raw: string): T | null {
+  if (!/^\d+$/.test(raw)) return null;
+  const index = Number(raw);
+  return index < options.length ? options[index] : null;
+}
+
+/** ビットフラグとして妥当なら値を返す。数値でない・ビット幅を超えるなら null。 */
+function parseBits(raw: string, bitCount: number): number | null {
+  if (!/^\d+$/.test(raw)) return null;
+  const value = Number(raw);
+  return value < (1 << bitCount) ? value : null;
+}
+
 export function decodeAnswers(encoded: string): Answers | null {
-  try {
-    const parts = encoded.split('-').map(Number);
-    // 8パーツ（旧形式）も受け付ける（後方互換）
-    if (parts.length !== 8 && parts.length !== 9) return null;
-    // 8番目（旧・予算）は読み飛ばす
-    const [q1i, q2i, q3i, q4bits, q5i, q6i, q7i, , q9bits = 0] = parts;
+  const parts = encoded.split('-');
+  // 8パーツ（予約枠まで）の旧形式も受け付ける（後方互換）
+  if (parts.length !== 8 && parts.length !== 9) return null;
 
-    const q4 = PROBLEMS.filter((_, i) => (q4bits & (1 << i)) !== 0);
-    const q9 = BRANDS.filter((_, i) => (q9bits & (1 << i)) !== 0);
+  const q1 = pickOption(LEVELS, parts[0]);
+  const q2 = pickOption(PLAY_STYLES, parts[1]);
+  const q3 = pickOption(SWING_SIZES, parts[2]);
+  const q4bits = parseBits(parts[3], PROBLEMS.length);
+  const q5 = pickOption(ELBOW_CONDITIONS, parts[4]);
+  const q6 = pickOption(CURRENT_WEIGHTS, parts[5]);
+  const q7 = pickOption(STRING_TYPES, parts[6]);
+  // 8番目（旧・予算）は値を使わないが、数値であることは確かめる
+  const reservedOk = /^\d+$/.test(parts[7]);
+  const q9bits = parts.length === 9 ? parseBits(parts[8], BRANDS.length) : 0;
 
-    return {
-      q1: LEVELS[q1i],
-      q2: PLAY_STYLES[q2i],
-      q3: SWING_SIZES[q3i],
-      q4,
-      q5: ELBOW_CONDITIONS[q5i],
-      q6: CURRENT_WEIGHTS[q6i],
-      q7: STRING_TYPES[q7i],
-      q9,
-    };
-  } catch {
+  if (
+    q1 === null || q2 === null || q3 === null || q4bits === null ||
+    q5 === null || q6 === null || q7 === null || q9bits === null || !reservedOk
+  ) {
     return null;
   }
+
+  return {
+    q1,
+    q2,
+    q3,
+    q4: PROBLEMS.filter((_, i) => (q4bits & (1 << i)) !== 0),
+    q5,
+    q6,
+    q7,
+    q9: BRANDS.filter((_, i) => (q9bits & (1 << i)) !== 0),
+  };
 }
