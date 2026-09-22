@@ -11,6 +11,12 @@ export type RacketSpec = {
   ra: number;
   beamWidth: number;
   pattern: '16x19' | '16x20' | '18x20' | 'other';
+  /**
+   * メーカーがスピン向けとして設計・位置づけているモデル（空力フレーム形状や、
+   * ストリングの可動域を広げるグロメットなど）。スペックだけでは VCORE と EZONE を
+   * 区別できないため、スピン軸の入力として持つ。
+   */
+  spinDesign?: boolean;
   /** 参考価格。診断では使わない（価格は楽天の商品ページで見てもらう） */
   price: number;
   imageUrl: string;
@@ -39,6 +45,7 @@ export type HardFilter =
   | { type: 'weight_range'; min: number; max: number }
   | { type: 'ra_max'; value: number }
   | { type: 'beamWidth_max'; value: number }
+  | { type: 'headSize_min'; value: number }
   | { type: 'pattern_exclude'; value: string }
   | { type: 'brand'; values: string[] };
 

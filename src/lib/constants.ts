@@ -1,38 +1,45 @@
 import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType } from './types';
 
 // ======= Q1: レベル基準値 =======
+//
+// 快適性・操作性・ボレーは「足りない分だけ」減点する片側ペナルティなので、
+// 理想値は「目標」ではなく「最低ライン」として置く。分布の中央値より大きく
+// 上に置くと、超過が減点されないぶん「柔らかく軽いほど得」の並べ替えになり、
+// 特定の機種が1位を占めてしまう。
 
 export const BASE_IDEAL: Record<Level, AxisScores> = {
   beginner: {
     power: 75,
     control: 40,
     spin: 45,
-    maneuverability: 70,
-    comfort: 75,
+    maneuverability: 62,
+    // 掲載機種の快適性の最大は73。理想値がそれを超えると「柔らかいほど良い」の
+    // 並べ替えになってしまうため、到達可能な範囲に収めている
+    comfort: 62,
     volley: 50,
   },
   beginnerIntermediate: {
     power: 68,
     control: 50,
     spin: 55,
-    maneuverability: 62,
-    comfort: 68,
+    maneuverability: 55,
+    comfort: 58,
     volley: 52,
   },
   intermediate: {
     power: 55,
     control: 62,
     spin: 65,
-    maneuverability: 55,
-    comfort: 58,
+    maneuverability: 48,
+    comfort: 50,
     volley: 55,
   },
   advanced: {
     power: 45,
     control: 75,
     spin: 70,
-    maneuverability: 48,
-    comfort: 45,
+    maneuverability: 42,
+    comfort: 40,
     volley: 58,
   },
 };
@@ -105,7 +112,7 @@ export const SWING_SIZE_WEIGHT_MUL: Record<SwingSize, Partial<Record<Axis, numbe
 export const PROBLEM_IDEAL_DELTA: Record<Problem, Partial<AxisScores>> = {
   noPower: { power: 15 },
   tooMuchPower: { power: -20, control: 15 },
-  noSpin: { spin: 15 },
+  noSpin: { spin: 25 },
   lateBall: { maneuverability: 15 },
   armPain: { comfort: 15 },
 };
@@ -138,7 +145,7 @@ export const ELBOW_WEIGHT_MUL: Record<ElbowCondition, Partial<Record<Axis, numbe
 // ======= Q6: 現在の重量範囲 =======
 
 export const CURRENT_WEIGHT_RANGE: Record<Exclude<CurrentWeight, 'unknown'>, [number, number]> = {
-  under275: [255, 290],
+  under275: [240, 290],  // 240g台の超軽量モデルも候補に入るようにする
   '275to290': [265, 300],
   '290to305': [280, 315],
   over305: [295, 330],
@@ -181,6 +188,20 @@ export const STRING_TYPE_IDEAL_DELTA: Record<StringType, Partial<AxisScores>> = 
 
 // ======= パターンボーナス =======
 
+/**
+ * 6軸スコアの正規化に使う実用レンジ（この範囲を 0〜100 に写す）。
+ * データセットの最小・最大ではなく固定値にすることで、
+ * 機種を足してもほかの機種のスコアが動かないようにしている。
+ */
+export const SPEC_RANGES = {
+  weight: [250, 320],
+  balance: [310, 345],
+  swingWeight: [250, 330],
+  headSize: [95, 110],
+  ra: [55, 72],
+  beamWidth: [20, 28],
+} as const satisfies Record<string, readonly [number, number]>;
+
 export const PATTERN_CONTROL_BONUS: Record<string, number> = {
   '18x20': 100,
   '16x20': 65,
@@ -189,11 +210,24 @@ export const PATTERN_CONTROL_BONUS: Record<string, number> = {
 };
 
 export const PATTERN_SPIN_BONUS: Record<string, number> = {
-  '18x20': 20,
+  '18x20': 15,
   '16x20': 55,
-  '16x19': 100,
+  '16x19': 90,
   other: 50,
 };
+
+/** スピンがもっともかけやすいフェイス面積（これより大小どちらに離れても下がる） */
+export const SPIN_BEST_HEAD_SIZE = 101;
+
+/** 同じくスイングウェイト。重すぎると振り抜けずヘッドスピードが出ない */
+export const SPIN_BEST_SWING_WEIGHT = 305;
+
+/**
+ * 初級・初中級に出さないフェイス面積の下限。
+ * 95〜97in² のプレイヤーズラケットはスイートスポットが狭く、
+ * ミスヒット時の衝撃も大きいため、このレベルには勧めない。
+ */
+export const BEGINNER_HEAD_SIZE_MIN = 98;
 
 // ======= スコアリング定数 =======
 

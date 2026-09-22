@@ -11,6 +11,7 @@ import {
   WEIGHT_NORMALIZE_TARGET,
   ELBOW_RA_MAX_SOMETIMES, ELBOW_RA_MAX_PAINFUL,
   ELBOW_BEAM_WIDTH_MAX_PAINFUL, ELBOW_WEIGHT_MIN_PAINFUL,
+  BEGINNER_HEAD_SIZE_MIN,
 } from './constants';
 
 function applyDelta(ideal: AxisScores, delta: Partial<AxisScores>): void {
@@ -123,6 +124,11 @@ export function buildTarget(answers: Answers): Target {
 
   // 重みの正規化
   normalizeWeight(weight, WEIGHT_NORMALIZE_TARGET);
+
+  // Q1: 初級・初中級には、スイートスポットの狭い上級者向けフェイスを出さない
+  if (answers.q1 === 'beginner' || answers.q1 === 'beginnerIntermediate') {
+    filters.push({ type: 'headSize_min', value: BEGINNER_HEAD_SIZE_MIN });
+  }
 
   // Q9: ブランドフィルタ
   if (answers.q9.length > 0) {

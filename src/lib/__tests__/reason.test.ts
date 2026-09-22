@@ -98,14 +98,17 @@ describe('実データでの性質', () => {
     }
   });
 
-  it('持ち味で説明する場合、その軸はそのラケットで最も高い軸', () => {
+  it('持ち味で説明する場合、その軸は STRONG 以上か、そのラケットで最も高い軸', () => {
+    // 「〜タイプの一本です」と書けるのは、その軸が実際に強いか、
+    // 強い軸が無いならせめてそのラケットの一番の持ち味であるとき
     for (const a of patterns) {
       const target = buildTarget(a);
       for (const item of runDiagnosis(rackets, target).top) {
         const axes = selectReasonAxes(item.axisScores, target);
         if (!axes.matchesPriority) {
           const best = Math.max(...(AXES as readonly Axis[]).map(x => item.axisScores[x]));
-          expect(item.axisScores[axes.main]).toBe(best);
+          const score = item.axisScores[axes.main];
+          expect(score >= STRONG || score === best, `${item.racket.model} の ${axes.main}=${score}`).toBe(true);
         }
       }
     }
