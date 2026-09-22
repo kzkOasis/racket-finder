@@ -1,5 +1,8 @@
 import type { RacketSpec, AxisScores } from './types';
-import { PATTERN_CONTROL_BONUS, PATTERN_SPIN_BONUS, SPEC_RANGES } from './constants';
+import {
+  PATTERN_CONTROL_BONUS, PATTERN_SPIN_BONUS, SPEC_RANGES,
+  SPIN_BEST_HEAD_SIZE, SPIN_BEST_SWING_WEIGHT,
+} from './constants';
 
 /**
  * スペックから6軸スコア（0〜100）を出す。
@@ -41,7 +44,16 @@ export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores
     // 収まりを決めるのはフェイス面積・ストリングパターン・重量のため。
     const control = 0.40 * iHeadSize + 0.25 * controlBonus + 0.20 * iBeamWidth + 0.15 * nWeight;
 
-    const spin = 0.40 * spinBonus + 0.30 * nHeadSize + 0.30 * nSwingWeight;
+    // スピン:
+    // - ストリングパターン（目が粗いほどストリングが動いて回転がかかる）
+    // - メーカーのスピン設計（空力フレーム・グロメット。スペックには出ない）
+    // - フェイス面積は「大きいほど良い」ではない。101in²前後がもっともかけやすく、
+    //   大きすぎるとストリング密度が下がる
+    // - スイングウェイトも「重いほど良い」ではない。振り抜けないとヘッドスピードが出ない
+    const headSpin  = Math.max(0, 100 - Math.abs(r.headSize - SPIN_BEST_HEAD_SIZE) * 7);
+    const swingSpin = Math.max(0, 100 - Math.abs(r.swingWeight - SPIN_BEST_SWING_WEIGHT) * 1.2);
+    const designSpin = r.spinDesign ? 100 : 35;
+    const spin = 0.40 * spinBonus + 0.20 * designSpin + 0.20 * headSpin + 0.20 * swingSpin;
 
     const maneuverability = 0.45 * iWeight + 0.40 * iSwingWeight + 0.15 * iBalance;
 

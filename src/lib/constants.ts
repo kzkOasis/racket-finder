@@ -112,7 +112,7 @@ export const SWING_SIZE_WEIGHT_MUL: Record<SwingSize, Partial<Record<Axis, numbe
 export const PROBLEM_IDEAL_DELTA: Record<Problem, Partial<AxisScores>> = {
   noPower: { power: 15 },
   tooMuchPower: { power: -20, control: 15 },
-  noSpin: { spin: 15 },
+  noSpin: { spin: 25 },
   lateBall: { maneuverability: 15 },
   armPain: { comfort: 15 },
 };
@@ -210,11 +210,17 @@ export const PATTERN_CONTROL_BONUS: Record<string, number> = {
 };
 
 export const PATTERN_SPIN_BONUS: Record<string, number> = {
-  '18x20': 20,
+  '18x20': 15,
   '16x20': 55,
-  '16x19': 100,
+  '16x19': 90,
   other: 50,
 };
+
+/** スピンがもっともかけやすいフェイス面積（これより大小どちらに離れても下がる） */
+export const SPIN_BEST_HEAD_SIZE = 101;
+
+/** 同じくスイングウェイト。重すぎると振り抜けずヘッドスピードが出ない */
+export const SPIN_BEST_SWING_WEIGHT = 305;
 
 /**
  * 初級・初中級に出さないフェイス面積の下限。
