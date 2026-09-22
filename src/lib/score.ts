@@ -1,6 +1,6 @@
 import type { RacketSpec, AxisScores, Target, ScoredRacket, RankedRacket, HardFilter } from './types';
 import { AXES } from './types';
-import { ONE_SIDED_AXES, SCORE_PENALTY_DIVISOR } from './constants';
+import { ONE_SIDED_AXES, SCORE_PENALTY_DIVISOR, POPULARITY_BONUS } from './constants';
 import { computeAxisScores } from './axes';
 
 function passFilter(racket: RacketSpec, filter: HardFilter): boolean {
@@ -54,7 +54,9 @@ export function runDiagnosis(
 
   const scored: ScoredRacket[] = candidates.map(r => ({
     racket: r,
-    score: calcScore(axisScoresMap.get(r.id)!, target),
+    // 定番モデルには加点する。適合度が拮抗したとき、知名度が高く入手しやすい方を選ぶため
+    score: Math.min(100, calcScore(axisScoresMap.get(r.id)!, target)
+      + (r.popularity === 'high' ? POPULARITY_BONUS : 0)),
     axisScores: axisScoresMap.get(r.id)!,
   }));
 

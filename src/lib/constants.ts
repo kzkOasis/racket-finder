@@ -12,34 +12,34 @@ export const BASE_IDEAL: Record<Level, AxisScores> = {
     power: 75,
     control: 40,
     spin: 45,
-    maneuverability: 55,
+    maneuverability: 48,
     // 掲載機種の快適性の最大は73。理想値がそれを超えると「柔らかいほど良い」の
     // 並べ替えになってしまうため、到達可能な範囲に収めている
-    comfort: 55,
+    comfort: 45,
     volley: 50,
   },
   beginnerIntermediate: {
     power: 68,
     control: 50,
     spin: 55,
-    maneuverability: 48,
-    comfort: 48,
+    maneuverability: 40,
+    comfort: 40,
     volley: 52,
   },
   intermediate: {
     power: 55,
     control: 62,
     spin: 65,
-    maneuverability: 40,
-    comfort: 40,
+    maneuverability: 33,
+    comfort: 32,
     volley: 55,
   },
   advanced: {
     power: 45,
     control: 75,
     spin: 70,
-    maneuverability: 35,
-    comfort: 30,
+    maneuverability: 28,
+    comfort: 25,
     volley: 58,
   },
 };
@@ -233,6 +233,12 @@ export const CHARACTER_BASE: Record<RacketCharacter, { power: number; control: n
 
 /** 各軸で、シリーズの性格をどれだけ効かせるか（残りはスペックから算出する） */
 export const CHARACTER_WEIGHT = { power: 0.40, control: 0.40, spin: 0.55, comfort: 0.30 } as const;
+
+/**
+ * 定番モデルへの加点。適合度が拮抗したときに、知名度が高く入手しやすいモデルを優先する。
+ * 大きくすると「人気ラケットばかり出る」状態になるため、スペックの差を覆さない範囲に留める。
+ */
+export const POPULARITY_BONUS = 5;
 
 /** スピンがもっともかけやすいフェイス面積（これより大小どちらに離れても下がる） */
 export const SPIN_BEST_HEAD_SIZE = 101;
