@@ -9,6 +9,7 @@ import racketData from '../../data/rackets.json';
 const rackets = racketData as RacketSpec[];
 
 const baseAnswers: Answers = {
+  gender: 'unspecified',
   q1: 'beginnerIntermediate',
   q2: 'allround',
   q3: 'standard',

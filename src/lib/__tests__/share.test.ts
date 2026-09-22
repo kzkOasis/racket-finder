@@ -3,6 +3,7 @@ import { encodeAnswers, decodeAnswers, BRANDS } from '../share';
 import type { Answers } from '../types';
 
 const answers: Answers = {
+  gender: 'unspecified',
   q1: 'intermediate',
   q2: 'net',
   q3: 'full',
@@ -32,7 +33,24 @@ describe('encode → decode', () => {
 
   it('9番目が無い旧々形式（8パーツ）はブランド指定なしとして読む', () => {
     const eight = encodeAnswers(answers).split('-').slice(0, 8).join('-');
-    expect(decodeAnswers(eight)).toEqual({ ...answers, q9: [] });
+    expect(decodeAnswers(eight)).toEqual({ ...answers, q9: [], gender: 'unspecified' });
+  });
+
+  it('性別が無い旧形式（9パーツ）は「回答しない」として読む', () => {
+    const nine = encodeAnswers(answers).split('-').slice(0, 9).join('-');
+    expect(decodeAnswers(nine)).toEqual({ ...answers, gender: 'unspecified' });
+  });
+
+  it('性別は10番目に入る', () => {
+    expect(encodeAnswers({ ...answers, gender: 'female' }).split('-')[9]).toBe('2');
+    expect(encodeAnswers({ ...answers, gender: 'male' }).split('-')[9]).toBe('1');
+    expect(encodeAnswers({ ...answers, gender: 'unspecified' }).split('-')[9]).toBe('0');
+  });
+
+  it('範囲外の性別は null', () => {
+    const parts = encodeAnswers(answers).split('-');
+    parts[9] = '3';
+    expect(decodeAnswers(parts.join('-'))).toBeNull();
   });
 });
 
@@ -57,7 +75,7 @@ describe('不正なURLを弾く（P1-2）', () => {
     expect(decodeAnswers('')).toBeNull();
     expect(decodeAnswers('0-0-0')).toBeNull();
     expect(decodeAnswers('0-0-0-0-0-0-0')).toBeNull();
-    expect(decodeAnswers('0-0-0-0-0-0-0-3-0-0')).toBeNull();
+    expect(decodeAnswers('0-0-0-0-0-0-0-3-0-0-0')).toBeNull(); // 11パーツ
     expect(decodeAnswers('0-0-0-0-0-0-0--0')).toBeNull(); // 空の要素
   });
 

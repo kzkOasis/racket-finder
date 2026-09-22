@@ -12,6 +12,7 @@ import racketData from '../../data/rackets.json';
 const rackets = racketData as RacketSpec[];
 
 const base: Answers = {
+  gender: 'unspecified',
   q1: 'intermediate', q2: 'allround', q3: 'standard',
   q4: [], q5: 'none', q6: '290to305', q7: 'nylon', q9: [],
 };
@@ -57,6 +58,32 @@ describe('回答に対して納得のいく機種が出る', () => {
   });
 });
 
+describe('性別（重量レンジにだけ効く）', () => {
+  it('女性を選ぶと、提案されるラケットが軽くなる方向に寄る', () => {
+    const male = top({ gender: 'male', q6: '290to305' }).map(t => t.racket.weight);
+    const female = top({ gender: 'female', q6: '290to305' }).map(t => t.racket.weight);
+    const avg = (xs: number[]) => xs.reduce((s, x) => s + x, 0) / xs.length;
+    expect(avg(female)).toBeLessThanOrEqual(avg(male));
+  });
+
+  it('「回答しない」は男性と同じ扱い（重量レンジをずらさない）', () => {
+    const unspecified = top({ gender: 'unspecified', q6: '290to305' }).map(t => t.racket.id);
+    const male = top({ gender: 'male', q6: '290to305' }).map(t => t.racket.id);
+    expect(unspecified).toEqual(male);
+  });
+
+  it('性別は理想値に影響しない（決めつけをしない）', () => {
+    // 同じ回答なら、重量レンジの外にある機種以外は評価が変わらない
+    const a = { gender: 'female' as const, q6: '290to305' as const };
+    const b = { gender: 'male' as const, q6: '290to305' as const };
+    const fa = top(a).find(t => t.racket.weight <= 305);
+    const fb = top(b).find(t => t.racket.weight <= 305);
+    if (fa && fb && fa.racket.id === fb.racket.id) {
+      expect(Math.round(fa.score)).toBe(Math.round(fb.score));
+    }
+  });
+});
+
 describe('提案の偏り', () => {
   const levels: Level[] = ['beginner', 'beginnerIntermediate', 'intermediate', 'advanced'];
   const styles: PlayStyle[] = ['baseline', 'allround', 'net'];
@@ -75,7 +102,7 @@ describe('提案の偏り', () => {
   let total = 0;
   for (const q1 of levels) for (const q2 of styles) for (const q3 of swings) for (const q5 of elbows)
   for (const q6 of weights) for (const q7 of strings) for (const q4 of problems) {
-    const t = runDiagnosis(rackets, buildTarget({ q1, q2, q3, q4, q5, q6, q7, q9: [] })).top;
+    const t = runDiagnosis(rackets, buildTarget({ gender: 'unspecified', q1, q2, q3, q4, q5, q6, q7, q9: [] })).top;
     total++;
     if (t[0]) rank1.set(t[0].racket.id, (rank1.get(t[0].racket.id) ?? 0) + 1);
     for (const x of t) inTop3.add(x.racket.id);

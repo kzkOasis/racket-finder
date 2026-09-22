@@ -11,7 +11,7 @@ import {
   WEIGHT_NORMALIZE_TARGET,
   ELBOW_RA_MAX_SOMETIMES, ELBOW_RA_MAX_PAINFUL,
   ELBOW_BEAM_WIDTH_MAX_PAINFUL, ELBOW_WEIGHT_MIN_PAINFUL,
-  BEGINNER_HEAD_SIZE_MIN,
+  BEGINNER_HEAD_SIZE_MIN, GENDER_WEIGHT_SHIFT,
 } from './constants';
 
 function applyDelta(ideal: AxisScores, delta: Partial<AxisScores>): void {
@@ -107,13 +107,14 @@ export function buildTarget(answers: Answers): Target {
     filters.push({ type: 'weight_min', value: ELBOW_WEIGHT_MIN_PAINFUL });
   }
 
-  // Q6: 重量フィルタ
+  // Q6: 重量フィルタ（性別ぶんだけ軽い側にずらす）
+  const weightShift = GENDER_WEIGHT_SHIFT[answers.gender];
   if (answers.q6 !== 'unknown') {
     const [min, max] = CURRENT_WEIGHT_RANGE[answers.q6];
-    filters.push({ type: 'weight_range', min, max });
+    filters.push({ type: 'weight_range', min: min + weightShift, max: max + weightShift });
   } else {
     const [min, max] = UNKNOWN_WEIGHT_RANGE[answers.q1][answers.q3];
-    filters.push({ type: 'weight_range', min, max });
+    filters.push({ type: 'weight_range', min: min + weightShift, max: max + weightShift });
   }
 
   // Q7

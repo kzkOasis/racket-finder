@@ -35,7 +35,7 @@ export default function ResultError({
           href="/"
           className="w-full rounded-lg bg-blue-500 py-3 font-medium text-white transition-colors hover:bg-blue-600"
         >
-          診断をやり直す（8問・約1分）
+          診断をやり直す（9問・約1分）
         </Link>
       </div>
     </div>
