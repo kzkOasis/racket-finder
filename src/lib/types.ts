@@ -1,3 +1,6 @@
+/** メーカーのシリーズ位置づけ（パワー / スピン / コントロール / 快適性 / オールラウンド） */
+export type RacketCharacter = 'power' | 'spin' | 'control' | 'comfort' | 'allround';
+
 export type RacketSpec = {
   id: string;
   brand: string;
@@ -12,11 +15,12 @@ export type RacketSpec = {
   beamWidth: number;
   pattern: '16x19' | '16x20' | '18x20' | 'other';
   /**
-   * メーカーがスピン向けとして設計・位置づけているモデル（空力フレーム形状や、
-   * ストリングの可動域を広げるグロメットなど）。スペックだけでは VCORE と EZONE を
-   * 区別できないため、スピン軸の入力として持つ。
+   * メーカーがそのシリーズに与えている性格。
+   * スペックだけでは EZONE（パワー）と VCORE（スピン）を区別できない
+   * （300g・100in²・16x19 が同じで、違うのはフレーム形状とグロメット）ため、
+   * シリーズの位置づけを入力として持つ。
    */
-  spinDesign?: boolean;
+  character: RacketCharacter;
   /** 参考価格。診断では使わない（価格は楽天の商品ページで見てもらう） */
   price: number;
   imageUrl: string;

@@ -64,7 +64,11 @@ describe('提案の偏り', () => {
   const elbows: ElbowCondition[] = ['none', 'sometimes', 'painful'];
   const weights: CurrentWeight[] = ['under275', '275to290', '290to305', 'over305', 'unknown'];
   const strings: StringType[] = ['poly', 'nylon', 'unknown'];
-  const problems: Problem[][] = [[], ['noPower'], ['tooMuchPower'], ['noSpin'], ['lateBall'], ['armPain']];
+  // Q4 は最大2つ選べるので、組み合わせも含める
+  const problems: Problem[][] = [
+    [], ['noPower'], ['tooMuchPower'], ['noSpin'], ['lateBall'], ['armPain'],
+    ['noPower', 'noSpin'], ['tooMuchPower', 'noSpin'], ['lateBall', 'armPain'],
+  ];
 
   const rank1 = new Map<string, number>();
   const inTop3 = new Set<string>();
