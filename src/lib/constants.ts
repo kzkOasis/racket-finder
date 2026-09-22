@@ -235,6 +235,13 @@ export const CHARACTER_BASE: Record<RacketCharacter, { power: number; control: n
 export const CHARACTER_WEIGHT = { power: 0.40, control: 0.40, spin: 0.55, comfort: 0.30 } as const;
 
 /**
+ * 2位・3位を選ぶとき、これ以内の点差なら別ブランドのモデルを優先する。
+ * 3本が同じブランドに偏ると、選択肢としての価値が下がるため。
+ * 大きくすると適合度を無視してブランドを散らすことになるので、小さく保つ。
+ */
+export const BRAND_DIVERSITY_TOLERANCE = 4;
+
+/**
  * 定番モデルへの加点。適合度が拮抗したときに、知名度が高く入手しやすいモデルを優先する。
  * 大きくすると「人気ラケットばかり出る」状態になるため、スペックの差を覆さない範囲に留める。
  */

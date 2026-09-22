@@ -1,6 +1,8 @@
 import type { RacketSpec, AxisScores, Target, ScoredRacket, RankedRacket, HardFilter } from './types';
 import { AXES } from './types';
-import { ONE_SIDED_AXES, SCORE_PENALTY_DIVISOR, POPULARITY_BONUS } from './constants';
+import {
+  ONE_SIDED_AXES, SCORE_PENALTY_DIVISOR, POPULARITY_BONUS, BRAND_DIVERSITY_TOLERANCE,
+} from './constants';
 import { computeAxisScores } from './axes';
 
 function passFilter(racket: RacketSpec, filter: HardFilter): boolean {
@@ -67,6 +69,18 @@ export function runDiagnosis(
   return { candidates: scored, top };
 }
 
+/**
+ * 候補（スコア降順）から1本選ぶ。僅差なら、まだ出していないブランドのものを優先する。
+ * 3本が同じブランドに偏るのを避けるため。
+ */
+function pickPreferringNewBrand(pool: ScoredRacket[], usedBrands: Set<string>): ScoredRacket {
+  const best = pool[0];
+  const otherBrand = pool.find(
+    s => !usedBrands.has(s.racket.brand) && best.score - s.score <= BRAND_DIVERSITY_TOLERANCE,
+  );
+  return otherBrand ?? best;
+}
+
 export function diversify(scored: ScoredRacket[]): RankedRacket[] {
   if (scored.length === 0) return [];
 
@@ -82,8 +96,10 @@ export function diversify(scored: ScoredRacket[]): RankedRacket[] {
     s => s.axisScores.comfort + s.axisScores.maneuverability > firstCM,
   );
   const isEasier = rank2pool.length > 0;
-  const second = isEasier ? rank2pool[0] : differentFrom1[0];
+  const usedBrands = new Set([first.racket.brand]);
+  const second = pickPreferringNewBrand(isEasier ? rank2pool : differentFrom1, usedBrands);
   result.push({ ...second, role: isEasier ? 'easier' : 'alternative' });
+  usedBrands.add(second.racket.brand);
 
   const differentFrom1and2 = scored.filter(
     s => s.racket.series !== first.racket.series && s.racket.series !== second.racket.series,
@@ -96,7 +112,7 @@ export function diversify(scored: ScoredRacket[]): RankedRacket[] {
     s => s.axisScores.control + s.axisScores.spin > firstCS,
   );
   const isAggressive = rank3pool.length > 0;
-  const third = isAggressive ? rank3pool[0] : differentFrom1and2[0];
+  const third = pickPreferringNewBrand(isAggressive ? rank3pool : differentFrom1and2, usedBrands);
   result.push({ ...third, role: isAggressive ? 'aggressive' : 'alternative' });
 
   return result;
