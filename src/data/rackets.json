@@ -12,6 +12,7 @@
     "ra": 68,
     "beamWidth": 23,
     "pattern": "16x19",
+    "character": "power",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=EZ10BB-1.jpg&nw=455",
     "affiliateUrl": {
@@ -32,6 +33,7 @@
     "ra": 66,
     "beamWidth": 22,
     "pattern": "16x19",
+    "character": "power",
     "price": 40000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=EZ98BB-1.jpg&nw=455",
     "affiliateUrl": {
@@ -52,6 +54,7 @@
     "ra": 62,
     "beamWidth": 21,
     "pattern": "18x20",
+    "character": "control",
     "price": 42000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WB9816-1.jpg&nw=455",
     "affiliateUrl": {
@@ -72,7 +75,7 @@
     "ra": 70,
     "beamWidth": 26,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BPAR26-1.jpg&nw=455",
     "affiliateUrl": {
@@ -93,6 +96,7 @@
     "ra": 72,
     "beamWidth": 26,
     "pattern": "16x19",
+    "character": "power",
     "price": 36000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BPD25R-1.jpg&nw=455",
     "affiliateUrl": {
@@ -113,6 +117,7 @@
     "ra": 65,
     "beamWidth": 22,
     "pattern": "16x19",
+    "character": "allround",
     "price": 40000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HSPMP6-1.jpg&nw=455",
     "affiliateUrl": {
@@ -133,6 +138,7 @@
     "ra": 63,
     "beamWidth": 22,
     "pattern": "18x20",
+    "character": "allround",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HRMP-1.jpg&nw=455",
     "affiliateUrl": {
@@ -153,6 +159,7 @@
     "ra": 55,
     "beamWidth": 24,
     "pattern": "16x19",
+    "character": "comfort",
     "price": 40000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WC100V-1.jpg&nw=455",
     "affiliateUrl": {
@@ -173,6 +180,7 @@
     "ra": 64,
     "beamWidth": 21,
     "pattern": "other",
+    "character": "allround",
     "price": 35000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=ATR310-1.jpg&nw=455",
     "affiliateUrl": {
@@ -193,6 +201,7 @@
     "ra": 65,
     "beamWidth": 22,
     "pattern": "16x19",
+    "character": "control",
     "price": 30000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=DCX4T-1.jpg&nw=455",
     "affiliateUrl": {
@@ -213,6 +222,7 @@
     "ra": 67,
     "beamWidth": 23,
     "pattern": "16x19",
+    "character": "power",
     "price": 32000,
     "imageUrl": "",
     "affiliateUrl": {
@@ -233,7 +243,7 @@
     "ra": 69,
     "beamWidth": 25,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 28000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BRNLS6-1.jpg&nw=455",
     "affiliateUrl": {
@@ -254,6 +264,7 @@
     "ra": 68,
     "beamWidth": 21,
     "pattern": "16x19",
+    "character": "control",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=PS1019-1.jpg&nw=455",
     "affiliateUrl": {
@@ -274,7 +285,7 @@
     "ra": 72,
     "beamWidth": 28,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 18000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BBOASR-1.jpg&nw=455",
     "affiliateUrl": {
@@ -295,6 +306,7 @@
     "ra": 63,
     "beamWidth": 21,
     "pattern": "16x20",
+    "character": "control",
     "price": 40000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HGMPG-1.jpg&nw=455",
     "affiliateUrl": {
@@ -315,6 +327,7 @@
     "ra": 58,
     "beamWidth": 19,
     "pattern": "18x20",
+    "character": "control",
     "price": 42000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HPRMP-1.jpg&nw=455",
     "affiliateUrl": {
@@ -335,7 +348,7 @@
     "ra": 70,
     "beamWidth": 24,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 36000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=YVC100-1.jpg&nw=455",
     "affiliateUrl": {
@@ -356,6 +369,7 @@
     "ra": 63,
     "beamWidth": 22,
     "pattern": "16x19",
+    "character": "control",
     "price": 42000,
     "imageUrl": "https://us.yonex.com/cdn/shop/files/ALL_01PE100_472-2_545ae070-15a7-48a7-a7e0-1de4479696a6.jpg?v=1759595991",
     "affiliateUrl": {
@@ -376,6 +390,7 @@
     "ra": 60,
     "beamWidth": 19,
     "pattern": "16x19",
+    "character": "control",
     "price": 44000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WPS97C-1.jpg&nw=455",
     "affiliateUrl": {
@@ -396,6 +411,7 @@
     "ra": 67,
     "beamWidth": 24,
     "pattern": "16x19",
+    "character": "power",
     "price": 30000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=DF500-1.jpg&nw=455",
     "affiliateUrl": {
@@ -416,6 +432,7 @@
     "ra": 68,
     "beamWidth": 24,
     "pattern": "16x19",
+    "character": "power",
     "price": 28000,
     "imageUrl": "",
     "affiliateUrl": {
@@ -436,6 +453,7 @@
     "ra": 65,
     "beamWidth": 22,
     "pattern": "16x19",
+    "character": "control",
     "price": 36000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=TF305S-1.jpg&nw=455",
     "affiliateUrl": {
@@ -456,6 +474,7 @@
     "ra": 62,
     "beamWidth": 23,
     "pattern": "16x19",
+    "character": "power",
     "price": 34000,
     "imageUrl": "",
     "affiliateUrl": {
@@ -476,7 +495,7 @@
     "ra": 69,
     "beamWidth": 26,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 36000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HREM26-1.jpg&nw=455",
     "affiliateUrl": {
@@ -497,6 +516,7 @@
     "ra": 67,
     "beamWidth": 25,
     "pattern": "16x19",
+    "character": "allround",
     "price": 26000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=PTW100-1.jpg&nw=455",
     "affiliateUrl": {
@@ -517,6 +537,7 @@
     "ra": 65,
     "beamWidth": 23,
     "pattern": "16x19",
+    "character": "power",
     "price": 35000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=EZ1LBB-1.jpg&nw=455",
     "affiliateUrl": {
@@ -537,7 +558,7 @@
     "ra": 70,
     "beamWidth": 26,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 32000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BAROL-1.jpg&nw=455",
     "affiliateUrl": {
@@ -558,6 +579,7 @@
     "ra": 60,
     "beamWidth": 22,
     "pattern": "16x19",
+    "character": "control",
     "price": 40000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WB1009-1.jpg&nw=455",
     "affiliateUrl": {
@@ -578,6 +600,7 @@
     "ra": 68,
     "beamWidth": 30,
     "pattern": "16x19",
+    "character": "power",
     "price": 10000,
     "imageUrl": "",
     "affiliateUrl": {
@@ -598,6 +621,7 @@
     "ra": 72,
     "beamWidth": 26,
     "pattern": "16x19",
+    "character": "power",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=BPDP25-1.jpg&nw=455",
     "affiliateUrl": {
@@ -618,6 +642,7 @@
     "ra": 63,
     "beamWidth": 26,
     "pattern": "16x19",
+    "character": "comfort",
     "price": 30000,
     "imageUrl": "https://us.yonex.com/cdn/shop/files/03ast105_grb_271_int.png?v=1738864569",
     "affiliateUrl": {
@@ -638,6 +663,7 @@
     "ra": 65,
     "beamWidth": 25,
     "pattern": "16x19",
+    "character": "allround",
     "price": 34000,
     "imageUrl": "",
     "affiliateUrl": {
@@ -658,6 +684,7 @@
     "ra": 55,
     "beamWidth": 26,
     "pattern": "16x19",
+    "character": "comfort",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WC108V-1.jpg&nw=455",
     "affiliateUrl": {
@@ -678,7 +705,7 @@
     "ra": 69,
     "beamWidth": 23,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=YVC98-1.jpg&nw=455",
     "affiliateUrl": {
@@ -699,6 +726,7 @@
     "ra": 63,
     "beamWidth": 23,
     "pattern": "16x19",
+    "character": "allround",
     "price": 32000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=HRAD2-1.jpg&nw=455",
     "affiliateUrl": {
@@ -719,6 +747,7 @@
     "ra": 61,
     "beamWidth": 20,
     "pattern": "18x20",
+    "character": "control",
     "price": 36000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=DCX2T6-1.jpg&nw=455",
     "affiliateUrl": {
@@ -739,7 +768,7 @@
     "ra": 60,
     "beamWidth": 23,
     "pattern": "16x19",
-    "spinDesign": true,
+    "character": "spin",
     "price": 38000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=25RIPH-1.jpg&nw=455",
     "affiliateUrl": {
@@ -760,6 +789,7 @@
     "ra": 68,
     "beamWidth": 27,
     "pattern": "16x19",
+    "character": "power",
     "price": 15000,
     "imageUrl": "",
     "affiliateUrl": {
@@ -780,6 +810,7 @@
     "ra": 50,
     "beamWidth": 28,
     "pattern": "16x19",
+    "character": "comfort",
     "price": 32000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=WTRI5-1.jpg&nw=455",
     "affiliateUrl": {
@@ -800,6 +831,7 @@
     "ra": 65,
     "beamWidth": 25,
     "pattern": "16x19",
+    "character": "power",
     "price": 20000,
     "imageUrl": "https://img.tennis-warehouse.com/watermark/rs.php?path=YEZFL-1.jpg&nw=455",
     "affiliateUrl": {

@@ -24,6 +24,7 @@ const racket: RacketSpec = {
   ra: 68,
   beamWidth: 23,
   pattern: '16x19',
+  character: 'power',
   price: 38000,
   imageUrl: 'https://img.tennis-warehouse.com/watermark/rs.php?path=EZ10BB-1.jpg&nw=455',
   affiliateUrl: { rakuten: 'https://hb.afl.rakuten.co.jp/ichiba/OLD/?pc=old', amazon: '' },

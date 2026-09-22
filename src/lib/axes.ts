@@ -2,7 +2,13 @@ import type { RacketSpec, AxisScores } from './types';
 import {
   PATTERN_CONTROL_BONUS, PATTERN_SPIN_BONUS, SPEC_RANGES,
   SPIN_BEST_HEAD_SIZE, SPIN_BEST_SWING_WEIGHT,
+  CHARACTER_BASE, CHARACTER_WEIGHT,
 } from './constants';
+
+/** 0〜100 に丸める */
+function clamp100(v: number): number {
+  return Math.max(0, Math.min(100, v));
+}
 
 /**
  * スペックから6軸スコア（0〜100）を出す。
@@ -36,13 +42,17 @@ export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores
     const controlBonus = PATTERN_CONTROL_BONUS[r.pattern] ?? PATTERN_CONTROL_BONUS['other'];
     const spinBonus    = PATTERN_SPIN_BONUS[r.pattern]    ?? PATTERN_SPIN_BONUS['other'];
 
+    const char = CHARACTER_BASE[r.character];
+
     // 飛び: スイングウェイト・フレームの硬さ・厚み・フェイス面積
-    const power = 0.35 * nSwingWeight + 0.25 * nRa + 0.25 * nBeamWidth + 0.15 * nHeadSize;
+    const specPower = 0.35 * nSwingWeight + 0.25 * nRa + 0.25 * nBeamWidth + 0.15 * nHeadSize;
+    const power = CHARACTER_WEIGHT.power * char.power + (1 - CHARACTER_WEIGHT.power) * specPower;
 
     // 収まり: フェイスが小さい / 目が詰まっている / ビームが薄い / ある程度重い（＝面がブレない）
     // フレームの硬さ（RA）はここでは使わない。柔らかさは打球感と衝撃の話で、
     // 収まりを決めるのはフェイス面積・ストリングパターン・重量のため。
-    const control = 0.40 * iHeadSize + 0.25 * controlBonus + 0.20 * iBeamWidth + 0.15 * nWeight;
+    const specControl = 0.40 * iHeadSize + 0.25 * controlBonus + 0.20 * iBeamWidth + 0.15 * nWeight;
+    const control = CHARACTER_WEIGHT.control * char.control + (1 - CHARACTER_WEIGHT.control) * specControl;
 
     // スピン:
     // - ストリングパターン（目が粗いほどストリングが動いて回転がかかる）
@@ -50,16 +60,24 @@ export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores
     // - フェイス面積は「大きいほど良い」ではない。101in²前後がもっともかけやすく、
     //   大きすぎるとストリング密度が下がる
     // - スイングウェイトも「重いほど良い」ではない。振り抜けないとヘッドスピードが出ない
-    const headSpin  = Math.max(0, 100 - Math.abs(r.headSize - SPIN_BEST_HEAD_SIZE) * 7);
-    const swingSpin = Math.max(0, 100 - Math.abs(r.swingWeight - SPIN_BEST_SWING_WEIGHT) * 1.2);
-    const designSpin = r.spinDesign ? 100 : 35;
-    const spin = 0.40 * spinBonus + 0.20 * designSpin + 0.20 * headSpin + 0.20 * swingSpin;
+    // スピンは「シリーズの性格」と「ストリングパターン」で大半が決まる。
+    // フェイス面積とスイングウェイトは、最適値から離れたぶんだけ引く減点項にする
+    // （大きすぎるとストリング密度が下がり、重すぎるとヘッドスピードが出ないため）。
+    // 加点項にすると、標準的な 16x19 / 100in² がすべて高得点になってしまう。
+    const headPenalty  = Math.abs(r.headSize - SPIN_BEST_HEAD_SIZE) * 0.8;
+    const swingPenalty = Math.abs(r.swingWeight - SPIN_BEST_SWING_WEIGHT) * 0.15;
+    const spin = clamp100(
+      CHARACTER_WEIGHT.spin * char.spin +
+      (1 - CHARACTER_WEIGHT.spin) * spinBonus -
+      headPenalty - swingPenalty,
+    );
 
     const maneuverability = 0.45 * iWeight + 0.40 * iSwingWeight + 0.15 * iBalance;
 
     // 腕への優しさ: 柔らかい / ビームが薄い / ある程度重い（軽いほど衝撃が伝わる）／
     // フェイスが大きい（スイートスポットが広く、面を外したときの衝撃が小さい）
-    const comfort = 0.40 * iRa + 0.20 * iBeamWidth + 0.20 * nWeight + 0.20 * nHeadSize;
+    const specComfort = 0.40 * iRa + 0.20 * iBeamWidth + 0.20 * nWeight + 0.20 * nHeadSize;
+    const comfort = CHARACTER_WEIGHT.comfort * char.comfort + (1 - CHARACTER_WEIGHT.comfort) * specComfort;
 
     const volley = 0.35 * iBalance + 0.35 * maneuverability + 0.30 * nWeight;
 

@@ -1,4 +1,4 @@
-import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType } from './types';
+import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, RacketCharacter } from './types';
 
 // ======= Q1: レベル基準値 =======
 //
@@ -12,34 +12,34 @@ export const BASE_IDEAL: Record<Level, AxisScores> = {
     power: 75,
     control: 40,
     spin: 45,
-    maneuverability: 62,
+    maneuverability: 55,
     // 掲載機種の快適性の最大は73。理想値がそれを超えると「柔らかいほど良い」の
     // 並べ替えになってしまうため、到達可能な範囲に収めている
-    comfort: 62,
+    comfort: 55,
     volley: 50,
   },
   beginnerIntermediate: {
     power: 68,
     control: 50,
     spin: 55,
-    maneuverability: 55,
-    comfort: 58,
+    maneuverability: 48,
+    comfort: 48,
     volley: 52,
   },
   intermediate: {
     power: 55,
     control: 62,
     spin: 65,
-    maneuverability: 48,
-    comfort: 50,
+    maneuverability: 40,
+    comfort: 40,
     volley: 55,
   },
   advanced: {
     power: 45,
     control: 75,
     spin: 70,
-    maneuverability: 42,
-    comfort: 40,
+    maneuverability: 35,
+    comfort: 30,
     volley: 58,
   },
 };
@@ -215,6 +215,24 @@ export const PATTERN_SPIN_BONUS: Record<string, number> = {
   '16x19': 90,
   other: 50,
 };
+
+/**
+ * シリーズの性格ごとの各軸の基準値（0〜100）。
+ * スペックに現れない設計意図（フレーム形状・グロメット・素材）を表す。
+ * 分類の根拠はメーカーと各社シリーズ解説（EZONE=パワー / VCORE=スピン /
+ * PERCEPT=コントロール、Pure Drive=パワー / Pure Aero=スピン / Pure Strike=コントロール、
+ * Dunlop FX=パワー / SX=スピン / CX=コントロール など）。
+ */
+export const CHARACTER_BASE: Record<RacketCharacter, { power: number; control: number; spin: number; comfort: number }> = {
+  power:    { power: 95, control: 30, spin: 35, comfort: 45 },
+  spin:     { power: 70, control: 40, spin: 95, comfort: 35 },
+  control:  { power: 30, control: 95, spin: 32, comfort: 55 },
+  comfort:  { power: 45, control: 55, spin: 35, comfort: 95 },
+  allround: { power: 55, control: 65, spin: 55, comfort: 55 },
+};
+
+/** 各軸で、シリーズの性格をどれだけ効かせるか（残りはスペックから算出する） */
+export const CHARACTER_WEIGHT = { power: 0.40, control: 0.40, spin: 0.55, comfort: 0.30 } as const;
 
 /** スピンがもっともかけやすいフェイス面積（これより大小どちらに離れても下がる） */
 export const SPIN_BEST_HEAD_SIZE = 101;
