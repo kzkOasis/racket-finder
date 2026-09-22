@@ -1,30 +1,27 @@
 import type { RacketSpec, AxisScores } from './types';
-import { PATTERN_CONTROL_BONUS, PATTERN_SPIN_BONUS } from './constants';
+import { PATTERN_CONTROL_BONUS, PATTERN_SPIN_BONUS, SPEC_RANGES } from './constants';
 
-function norm(value: number, all: number[]): number {
-  const min = Math.min(...all);
-  const max = Math.max(...all);
-  return max === min ? 50 : ((value - min) / (max - min)) * 100;
+/**
+ * スペックから6軸スコア（0〜100）を出す。
+ *
+ * 正規化はデータセットの最小・最大ではなく、実用レンジの固定値（SPEC_RANGES）で行う。
+ * こうするとスコアが絶対的な意味を持ち、機種を足してもほかの機種のスコアが動かない。
+ * レンジの外は 0 / 100 に丸める。
+ */
+function norm(value: number, [min, max]: readonly [number, number]): number {
+  return Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
 }
 
-
 export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores> {
-  const allSwingWeight = rackets.map(r => r.swingWeight);
-  const allHeadSize   = rackets.map(r => r.headSize);
-  const allRa         = rackets.map(r => r.ra);
-  const allBeamWidth  = rackets.map(r => r.beamWidth);
-  const allWeight     = rackets.map(r => r.weight);
-  const allBalance    = rackets.map(r => r.balance);
-
   const result = new Map<string, AxisScores>();
 
   for (const r of rackets) {
-    const nSwingWeight = norm(r.swingWeight, allSwingWeight);
-    const nHeadSize    = norm(r.headSize, allHeadSize);
-    const nRa          = norm(r.ra, allRa);
-    const nBeamWidth   = norm(r.beamWidth, allBeamWidth);
-    const nWeight      = norm(r.weight, allWeight);
-    const nBalance     = norm(r.balance, allBalance);
+    const nSwingWeight = norm(r.swingWeight, SPEC_RANGES.swingWeight);
+    const nHeadSize    = norm(r.headSize, SPEC_RANGES.headSize);
+    const nRa          = norm(r.ra, SPEC_RANGES.ra);
+    const nBeamWidth   = norm(r.beamWidth, SPEC_RANGES.beamWidth);
+    const nWeight      = norm(r.weight, SPEC_RANGES.weight);
+    const nBalance     = norm(r.balance, SPEC_RANGES.balance);
 
     const iSwingWeight = 100 - nSwingWeight;
     const iHeadSize    = 100 - nHeadSize;
@@ -36,15 +33,23 @@ export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores
     const controlBonus = PATTERN_CONTROL_BONUS[r.pattern] ?? PATTERN_CONTROL_BONUS['other'];
     const spinBonus    = PATTERN_SPIN_BONUS[r.pattern]    ?? PATTERN_SPIN_BONUS['other'];
 
-    const power           = 0.35 * nSwingWeight + 0.25 * nHeadSize + 0.25 * nRa + 0.15 * nBeamWidth;
-    const control         = 0.35 * iHeadSize    + 0.30 * iRa       + 0.20 * controlBonus + 0.15 * iBeamWidth;
-    const spin            = 0.40 * spinBonus    + 0.30 * nHeadSize  + 0.30 * nSwingWeight;
-    const maneuverability = 0.45 * iWeight      + 0.40 * iSwingWeight + 0.15 * iBalance;
-    const volley_raw      = 0.35 * iBalance     + 0.35 * maneuverability + 0.30 * nWeight;
+    // 飛び: スイングウェイト・フレームの硬さ・厚み・フェイス面積
+    const power = 0.35 * nSwingWeight + 0.25 * nRa + 0.25 * nBeamWidth + 0.15 * nHeadSize;
 
-    // comfort と volley は maneuverability が必要なので順番注意
-    const comfort = 0.45 * iRa + 0.30 * iBeamWidth + 0.25 * nWeight;
-    const volley  = volley_raw;
+    // 収まり: フェイスが小さい / 目が詰まっている / ビームが薄い / ある程度重い（＝面がブレない）
+    // フレームの硬さ（RA）はここでは使わない。柔らかさは打球感と衝撃の話で、
+    // 収まりを決めるのはフェイス面積・ストリングパターン・重量のため。
+    const control = 0.40 * iHeadSize + 0.25 * controlBonus + 0.20 * iBeamWidth + 0.15 * nWeight;
+
+    const spin = 0.40 * spinBonus + 0.30 * nHeadSize + 0.30 * nSwingWeight;
+
+    const maneuverability = 0.45 * iWeight + 0.40 * iSwingWeight + 0.15 * iBalance;
+
+    // 腕への優しさ: 柔らかい / ビームが薄い / ある程度重い（軽いほど衝撃が伝わる）／
+    // フェイスが大きい（スイートスポットが広く、面を外したときの衝撃が小さい）
+    const comfort = 0.40 * iRa + 0.20 * iBeamWidth + 0.20 * nWeight + 0.20 * nHeadSize;
+
+    const volley = 0.35 * iBalance + 0.35 * maneuverability + 0.30 * nWeight;
 
     const computed: AxisScores = {
       power:           Math.round(power * 10) / 10,
@@ -55,12 +60,7 @@ export function computeAxisScores(rackets: RacketSpec[]): Map<string, AxisScores
       volley:          Math.round(volley * 10) / 10,
     };
 
-    // overrides を適用
-    const scores: AxisScores = r.overrides
-      ? { ...computed, ...r.overrides }
-      : computed;
-
-    result.set(r.id, scores);
+    result.set(r.id, r.overrides ? { ...computed, ...r.overrides } : computed);
   }
 
   return result;

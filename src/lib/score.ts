@@ -15,6 +15,8 @@ function passFilter(racket: RacketSpec, filter: HardFilter): boolean {
       return racket.ra <= filter.value;
     case 'beamWidth_max':
       return racket.beamWidth <= filter.value;
+    case 'headSize_min':
+      return racket.headSize >= filter.value;
     case 'pattern_exclude':
       return racket.pattern !== filter.value;
     case 'brand':

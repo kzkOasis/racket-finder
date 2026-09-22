@@ -39,6 +39,7 @@ export type HardFilter =
   | { type: 'weight_range'; min: number; max: number }
   | { type: 'ra_max'; value: number }
   | { type: 'beamWidth_max'; value: number }
+  | { type: 'headSize_min'; value: number }
   | { type: 'pattern_exclude'; value: string }
   | { type: 'brand'; values: string[] };
 
