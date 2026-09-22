@@ -21,6 +21,11 @@ export type RacketSpec = {
    * シリーズの位置づけを入力として持つ。
    */
   character: RacketCharacter;
+  /**
+   * 定番度。各ブランドの主力ラインで、店頭・通販に定番として置かれているモデルを high とする。
+   * 適合度が近いときに、知名度が高く入手しやすいモデルを優先するために使う。
+   */
+  popularity: 'high' | 'standard';
   /** 参考価格。診断では使わない（価格は楽天の商品ページで見てもらう） */
   price: number;
   imageUrl: string;
