@@ -1,4 +1,4 @@
-import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, RacketCharacter } from './types';
+import type { Axis, AxisScores, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, RacketCharacter, Gender } from './types';
 
 // ======= Q1: レベル基準値 =======
 //
@@ -149,6 +149,20 @@ export const CURRENT_WEIGHT_RANGE: Record<Exclude<CurrentWeight, 'unknown'>, [nu
   '275to290': [265, 300],
   '290to305': [280, 315],
   over305: [295, 330],
+};
+
+/**
+ * 性別による重量レンジのずらし幅（g）。
+ *
+ * 理想値（パワー・コントロールなど）には効かせない。「女性だから飛ぶラケット」
+ * といった決めつけは診断の精度を下げるため。実際に平均差が出る重量だけを、
+ * 下限・上限ともに軽い側へずらす（上限だけ下げると選択肢を削るだけになる）。
+ * 「回答しない」を選んだ場合はずらさない。
+ */
+export const GENDER_WEIGHT_SHIFT: Record<Gender, number> = {
+  male: 0,
+  female: -10,
+  unspecified: 0,
 };
 
 // Q6「わからない」の推定表

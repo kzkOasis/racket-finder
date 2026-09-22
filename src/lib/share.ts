@@ -1,4 +1,4 @@
-import type { Answers, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType } from './types';
+import type { Answers, Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, Gender } from './types';
 
 const LEVELS: Level[] = ['beginner', 'beginnerIntermediate', 'intermediate', 'advanced'];
 const PLAY_STYLES: PlayStyle[] = ['baseline', 'allround', 'net'];
@@ -7,6 +7,8 @@ const PROBLEMS: Problem[] = ['noPower', 'tooMuchPower', 'noSpin', 'lateBall', 'a
 const ELBOW_CONDITIONS: ElbowCondition[] = ['none', 'sometimes', 'painful'];
 const CURRENT_WEIGHTS: CurrentWeight[] = ['under275', '275to290', '290to305', 'over305', 'unknown'];
 const STRING_TYPES: StringType[] = ['poly', 'nylon', 'unknown'];
+// 性別は10番目に足す。既存の並びは変えない（古いシェアURLを壊さないため）
+const GENDERS: Gender[] = ['unspecified', 'male', 'female'];
 // 8番目は廃止した予算の枠。並び順を変えると既存のシェアURLが壊れるので、
 // 常に「上限なし」を意味する 3 を書き、読むときは捨てる。
 const RESERVED_BUDGET_SLOT = 3;
@@ -30,6 +32,7 @@ export function encodeAnswers(answers: Answers): string {
     STRING_TYPES.indexOf(answers.q7),
     RESERVED_BUDGET_SLOT,
     q9Encoded,
+    GENDERS.indexOf(answers.gender),
   ];
   return parts.join('-');
 }
@@ -50,8 +53,8 @@ function parseBits(raw: string, bitCount: number): number | null {
 
 export function decodeAnswers(encoded: string): Answers | null {
   const parts = encoded.split('-');
-  // 8パーツ（予約枠まで）の旧形式も受け付ける（後方互換）
-  if (parts.length !== 8 && parts.length !== 9) return null;
+  // 8パーツ・9パーツの旧形式も受け付ける（後方互換）。性別は10番目
+  if (parts.length < 8 || parts.length > 10) return null;
 
   const q1 = pickOption(LEVELS, parts[0]);
   const q2 = pickOption(PLAY_STYLES, parts[1]);
@@ -62,16 +65,19 @@ export function decodeAnswers(encoded: string): Answers | null {
   const q7 = pickOption(STRING_TYPES, parts[6]);
   // 8番目（旧・予算）は値を使わないが、数値であることは確かめる
   const reservedOk = /^\d+$/.test(parts[7]);
-  const q9bits = parts.length === 9 ? parseBits(parts[8], BRANDS.length) : 0;
+  const q9bits = parts.length >= 9 ? parseBits(parts[8], BRANDS.length) : 0;
+  // 性別が無い古いURLは「回答しない」として扱う
+  const gender = parts.length === 10 ? pickOption(GENDERS, parts[9]) : 'unspecified';
 
   if (
     q1 === null || q2 === null || q3 === null || q4bits === null ||
-    q5 === null || q6 === null || q7 === null || q9bits === null || !reservedOk
+    q5 === null || q6 === null || q7 === null || q9bits === null || gender === null || !reservedOk
   ) {
     return null;
   }
 
   return {
+    gender,
     q1,
     q2,
     q3,

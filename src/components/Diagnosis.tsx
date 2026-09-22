@@ -4,10 +4,11 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { QuestionStep } from '@/components/QuestionStep';
-import type { Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType } from '@/lib/types';
+import type { Level, PlayStyle, SwingSize, Problem, ElbowCondition, CurrentWeight, StringType, Gender } from '@/lib/types';
 import { encodeAnswers, BRANDS } from '@/lib/share';
 
 type Answers = {
+  gender: Gender | null;
   q1: Level | null;
   q2: PlayStyle | null;
   q3: SwingSize | null;
@@ -18,7 +19,7 @@ type Answers = {
   q9: string[];
 };
 
-const TOTAL = 8;
+const TOTAL = 9;
 
 type Props = {
   /** 見出しとリード文。ボタンより上に出す */
@@ -34,6 +35,7 @@ export function Diagnosis({ lead, features, guide }: Props) {
   // step 0 = スタート画面、1〜8 = 質問
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({
+    gender: null,
     q1: null,
     q2: null,
     q3: null,
@@ -49,6 +51,7 @@ export function Diagnosis({ lead, features, guide }: Props) {
       setStep(s => s + 1);
     } else {
       const a = {
+        gender: answers.gender!,
         q1: answers.q1!,
         q2: answers.q2!,
         q3: answers.q3!,
@@ -97,16 +100,15 @@ export function Diagnosis({ lead, features, guide }: Props) {
       <QuestionStep
         questionNumber={1}
         total={TOTAL}
-        question="テニス歴・レベルを教えてください"
+        question="性別を教えてください"
         options={[
-          { value: 'beginner' as Level, label: '初級（〜1年 / 週1未満）' },
-          { value: 'beginnerIntermediate' as Level, label: '初中級（1〜3年）' },
-          { value: 'intermediate' as Level, label: '中級（3〜10年 / 草トー出る）' },
-          { value: 'advanced' as Level, label: '中上級以上（10年〜 / 試合中心）' },
+          { value: 'male' as Gender, label: '男性' },
+          { value: 'female' as Gender, label: '女性' },
+          { value: 'unspecified' as Gender, label: '回答しない' },
         ]}
-        selected={answers.q1 ? [answers.q1] : []}
+        selected={answers.gender ? [answers.gender] : []}
         maxSelect={1}
-        onSelect={(v) => setAnswers(a => ({ ...a, q1: v as Level }))}
+        onSelect={(v) => setAnswers(a => ({ ...a, gender: v as Gender }))}
         onBack={null}
         onNext={goNext}
       />
@@ -117,6 +119,27 @@ export function Diagnosis({ lead, features, guide }: Props) {
     return (
       <QuestionStep
         questionNumber={2}
+        total={TOTAL}
+        question="テニス歴・レベルを教えてください"
+        options={[
+          { value: 'beginner' as Level, label: '初級（〜1年 / 週1未満）' },
+          { value: 'beginnerIntermediate' as Level, label: '初中級（1〜3年）' },
+          { value: 'intermediate' as Level, label: '中級（3〜10年 / 草トー出る）' },
+          { value: 'advanced' as Level, label: '中上級以上（10年〜 / 試合中心）' },
+        ]}
+        selected={answers.q1 ? [answers.q1] : []}
+        maxSelect={1}
+        onSelect={(v) => setAnswers(a => ({ ...a, q1: v as Level }))}
+        onBack={goBack}
+        onNext={goNext}
+      />
+    );
+  }
+
+  if (step === 3) {
+    return (
+      <QuestionStep
+        questionNumber={3}
         total={TOTAL}
         question="どんなプレーが多いですか"
         options={[
@@ -133,10 +156,10 @@ export function Diagnosis({ lead, features, guide }: Props) {
     );
   }
 
-  if (step === 3) {
+  if (step === 4) {
     return (
       <QuestionStep
-        questionNumber={3}
+        questionNumber={4}
         total={TOTAL}
         question="スイングはどちらに近いですか"
         options={[
@@ -153,10 +176,10 @@ export function Diagnosis({ lead, features, guide }: Props) {
     );
   }
 
-  if (step === 4) {
+  if (step === 5) {
     return (
       <QuestionStep
-        questionNumber={4}
+        questionNumber={5}
         total={TOTAL}
         question="いま一番困っていることは？（最大2つまで）"
         options={[
@@ -183,10 +206,10 @@ export function Diagnosis({ lead, features, guide }: Props) {
     );
   }
 
-  if (step === 5) {
+  if (step === 6) {
     return (
       <QuestionStep
-        questionNumber={5}
+        questionNumber={6}
         total={TOTAL}
         question="肘や肩に不安はありますか"
         options={[
@@ -203,10 +226,10 @@ export function Diagnosis({ lead, features, guide }: Props) {
     );
   }
 
-  if (step === 6) {
+  if (step === 7) {
     return (
       <QuestionStep
-        questionNumber={6}
+        questionNumber={7}
         total={TOTAL}
         question="いま使っているラケットの重さは？"
         options={[
@@ -225,10 +248,10 @@ export function Diagnosis({ lead, features, guide }: Props) {
     );
   }
 
-  if (step === 7) {
+  if (step === 8) {
     return (
       <QuestionStep
-        questionNumber={7}
+        questionNumber={8}
         total={TOTAL}
         question="張る予定のストリングは？"
         options={[
@@ -245,10 +268,10 @@ export function Diagnosis({ lead, features, guide }: Props) {
     );
   }
 
-  // step === 8
+  // step === 9
   return (
     <QuestionStep
-      questionNumber={8}
+      questionNumber={9}
       total={TOTAL}
       question="気になるブランドはありますか？（任意・複数選択可）"
       options={[

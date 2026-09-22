@@ -9,6 +9,7 @@ const r = rackets as RacketSpec[];
 
 // デフォルト回答（上書きして使う）
 const defaults: Answers = {
+  gender: 'unspecified',
   q1: 'beginnerIntermediate',
   q2: 'allround',
   q3: 'standard',

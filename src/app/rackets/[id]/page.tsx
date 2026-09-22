@@ -167,7 +167,7 @@ export default async function RacketPage(props: PageProps<'/rackets/[id]'>) {
           href="/"
           className="mb-6 block w-full rounded-lg bg-blue-500 px-4 py-3 text-center font-medium text-white transition-colors hover:bg-blue-600"
         >
-          このラケットが自分に合うか診断する（8問・約1分）
+          このラケットが自分に合うか診断する（9問・約1分）
         </Link>
 
         {sameBrand.length > 0 && (

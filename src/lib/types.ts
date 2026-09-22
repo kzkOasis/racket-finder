@@ -71,8 +71,11 @@ export type Problem = 'noPower' | 'tooMuchPower' | 'noSpin' | 'lateBall' | 'armP
 export type ElbowCondition = 'none' | 'sometimes' | 'painful';
 export type CurrentWeight = 'under275' | '275to290' | '290to305' | 'over305' | 'unknown';
 export type StringType = 'poly' | 'nylon' | 'unknown';
+export type Gender = 'male' | 'female' | 'unspecified';
 
 export type Answers = {
+  /** 性別。重量レンジの推定にだけ使う（理想値には効かせない） */
+  gender: Gender;
   q1: Level;
   q2: PlayStyle;
   q3: SwingSize;

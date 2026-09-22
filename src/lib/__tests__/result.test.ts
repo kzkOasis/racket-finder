@@ -4,6 +4,7 @@ import { encodeAnswers } from '../share';
 import type { Answers } from '../types';
 
 const answers: Answers = {
+  gender: 'unspecified',
   q1: 'beginnerIntermediate',
   q2: 'allround',
   q3: 'standard',
